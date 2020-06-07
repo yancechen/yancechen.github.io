@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Magpie 接入流程详解 | Yance Chen</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://https://yancechen.github.io//favicon.ico?v=1591537308472">
+<link rel="stylesheet" href="https://https://yancechen.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="本篇文章会详细介绍 magpie 的接入流程
+
+开源项目名称：magpie
+github地址：
+https://github.com/wuba/magpie
+https://github.com/wuba/magpie_sdk
+https:..." />
+    <meta name="keywords" content="Flutter" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://https://yancechen.github.io/">
+        <img src="https://https://yancechen.github.io//images/avatar.png?v=1591537308472" class="site-logo">
+        <h1 class="site-title">Yance Chen</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      陈有余的个人技术博客
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://https://yancechen.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Magpie 接入流程详解</h2>
+            <div class="post-date">2020-05-27</div>
+            
+              <div class="feature-container" style="background-image: url('https://https://yancechen.github.io//post-images/magpie-zai-xin-ying-cai-ye-wu-de-luo-di-shi-jian.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>本篇文章会详细介绍 magpie 的接入流程</p>
+<!-- more -->
+<p>开源项目名称：magpie</p>
+<p>github地址：<br>
+https://github.com/wuba/magpie<br>
+https://github.com/wuba/magpie_sdk<br>
+https://github.com/wuba/magpie_fly<br>
+https://github.com/wuba/magpie_log</p>
+<p>关于 magpie 的介绍：<br>
+<a href="https://mp.weixin.qq.com/s/vbGKxPJ3YkpSBHEkCQVXzQ">Magpie：平台工具链开发实践</a><br>
+<a href="https://mp.weixin.qq.com/s/LP-o2QUYdbeDfygVgmSZQw">Magpie：混合开发工程化框架</a><br>
+<a href="https://mp.weixin.qq.com/s/tUPX7ZwSOELdMBbecFsd0A">Magpie：Magpie在安居客有料业务的落地实践</a></p>
+<h3 id="为什么要写这篇文章">为什么要写这篇文章？</h3>
+<p>假设我们正在开发和维护一个 Android 项目，名叫：<code>MyProject</code>。</p>
+<h3 id="一-接入步骤">一、接入步骤</h3>
+<h4 id="一安装-magpie-脚手架install-cli">（一）安装 Magpie 脚手架（Install cli）</h4>
+<pre><code>pub global activate magpie_cli
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://https://yancechen.github.io//post-images/1590567934223.jpeg" alt="" loading="lazy"></figure>
+<h4 id="二start-workflow">（二）Start Workflow</h4>
+<p>1.Create module project</p>
+<pre><code>mgpcli create -n flutter_sample
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://https://yancechen.github.io//post-images/1590568107956.png" alt="" loading="lazy"></figure>
+<p>2.Start service</p>
+<pre><code>cd flutter_sample
+mgpcli start
+</code></pre>
+<p>运行了<code>mgpcli start</code>命令会自动打开 magpie 的可视化管理页面<br>
+<img src="https://https://yancechen.github.io//post-images/1590568152958.png" alt="" loading="lazy"></p>
+<p>3.Switch to browser<br>
+The browser should have been opened instantly，<a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></p>
+<p>遇到的问题合集：<br>
+1.com.wuba.magpie:magpie_flutter_debug_default:0.0.1 这个库依赖失败<br>
+多试几次<br>
+2.<img src="https://https://yancechen.github.io//post-images/1590572067356.png" alt="" loading="lazy"></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://https://yancechen.github.io/tag/fNJYszYEs/" class="tag">
+                    Flutter
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://https://yancechen.github.io/post/chang-yong-wang-zhan/">
+                  <h3 class="post-title">
+                    常用网站
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
