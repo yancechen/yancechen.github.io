@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://https://yancechen.github.io/</id>
     <title>Yance Chen</title>
-    <updated>2020-06-08T02:39:53.441Z</updated>
+    <updated>2020-06-08T02:47:50.957Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://https://yancechen.github.io/"/>
     <link rel="self" href="https://https://yancechen.github.io/atom.xml"/>
@@ -10,6 +10,16 @@
     <logo>https://https://yancechen.github.io/images/avatar.png</logo>
     <icon>https://https://yancechen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Yance Chen</rights>
+    <entry>
+        <title type="html"><![CDATA[Flutter 学习资料汇总]]></title>
+        <id>https://https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/</id>
+        <link href="https://https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
+        </link>
+        <updated>2020-06-08T02:41:08.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="入门">入门</h3>
+<p>1.<a href="https://www.jianshu.com/p/0a19cf96dbe3">Android跨平台：请收好这份快速入门Flutter的学习指南！</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Magpie 接入流程详解]]></title>
         <id>https://https://yancechen.github.io/post/magpie-zai-xin-ying-cai-ye-wu-de-luo-di-shi-jian/</id>
