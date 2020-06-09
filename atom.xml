@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yancechen.github.io</id>
     <title>Yance Chen</title>
-    <updated>2020-06-09T03:09:19.136Z</updated>
+    <updated>2020-06-09T03:18:14.680Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yancechen.github.io"/>
     <link rel="self" href="https://yancechen.github.io/atom.xml"/>
@@ -10,6 +10,84 @@
     <logo>https://yancechen.github.io/images/avatar.png</logo>
     <icon>https://yancechen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Yance Chen</rights>
+    <entry>
+        <title type="html"><![CDATA[Magpie 接入流程详解]]></title>
+        <id>https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/</id>
+        <link href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">
+        </link>
+        <updated>2020-06-09T03:17:50.000Z</updated>
+        <summary type="html"><![CDATA[<p>本篇文章会详细介绍 magpie 的接入流程</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>本篇文章会详细介绍 magpie 的接入流程</p>
+<!-- more -->
+<p>开源项目名称：magpie</p>
+<p>github地址：<br>
+https://github.com/wuba/magpie<br>
+https://github.com/wuba/magpie_sdk<br>
+https://github.com/wuba/magpie_fly<br>
+https://github.com/wuba/magpie_log</p>
+<p>关于 magpie 的介绍：<br>
+<a href="https://mp.weixin.qq.com/s/vbGKxPJ3YkpSBHEkCQVXzQ">Magpie：平台工具链开发实践</a><br>
+<a href="https://mp.weixin.qq.com/s/LP-o2QUYdbeDfygVgmSZQw">Magpie：混合开发工程化框架</a><br>
+<a href="https://mp.weixin.qq.com/s/tUPX7ZwSOELdMBbecFsd0A">Magpie：Magpie在安居客有料业务的落地实践</a></p>
+<h3 id="为什么要写这篇文章">为什么要写这篇文章？</h3>
+<p>假设我们正在开发和维护一个 Android 项目，名叫：<code>MyProject</code>。</p>
+<h3 id="一-接入步骤">一、接入步骤</h3>
+<h4 id="一安装-magpie-脚手架install-cli">（一）安装 Magpie 脚手架（Install cli）</h4>
+<pre><code>pub global activate magpie_cli
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://yancechen.github.io/post-images/1590567934223.jpeg" alt="" loading="lazy"></figure>
+<h4 id="二start-workflow">（二）Start Workflow</h4>
+<p>1.Create module project</p>
+<pre><code>mgpcli create -n flutter_sample
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://yancechen.github.io/post-images/1590568107956.png" alt="" loading="lazy"></figure>
+<p>2.Start service</p>
+<pre><code>cd flutter_sample
+mgpcli start
+</code></pre>
+<p>运行了<code>mgpcli start</code>命令会自动打开 magpie 的可视化管理页面<br>
+<img src="https://yancechen.github.io/post-images/1590568152958.png" alt="" loading="lazy"></p>
+<p>3.Switch to browser<br>
+The browser should have been opened instantly，<a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></p>
+<p>遇到的问题合集：<br>
+1.com.wuba.magpie:magpie_flutter_debug_default:0.0.1 这个库依赖失败<br>
+多试几次<br>
+2.<img src="https://yancechen.github.io/post-images/1590572067356.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常用网站]]></title>
+        <id>https://yancechen.github.io/post/chang-yong-wang-zhan/</id>
+        <link href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
+        </link>
+        <updated>2020-06-09T03:16:39.000Z</updated>
+        <summary type="html"><![CDATA[<p>常用网站梳理，方便访问</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>常用网站梳理，方便访问</p>
+<!-- more -->
+<h3 id="一-github">一、github</h3>
+<p>1.<a href="https://github.com/google">Google Open Source</a><br>
+2.<a href="https://github.com/alibaba">Alibaba Open Source</a><br>
+3.<a href="https://github.com/SmartisanTech">SmartisanTech</a><br>
+4.<a href="https://github.com/Tencent">Tencent</a><br>
+5.<a href="https://github.com/JakeWharton">Jake Wharton</a><br>
+6.<a href="https://github.com/gradle">Gradle</a><br>
+7.<a href="https://github.com/flutter">Flutter</a></p>
+<h3 id="二-高质量社区和博客">二、高质量社区和博客</h3>
+<p>1.<a href="https://wanandroid.com/">玩 Android</a><br>
+2.<a href="https://blog.csdn.net/guolin_blog">郭霖的专栏CSDN</a><br>
+3.<a href="http://liuwangshu.cn/">刘望舒的博客</a><br>
+4.<a href="https://blog.csdn.net/carson_ho">carson_ho 专注分享 Android开发 干货</a></p>
+<h3 id="三-flutter-学习">三、Flutter 学习</h3>
+<p>1.<a href="https://flutter.cn/docs">Flutter 官方开发文档-中文版</a><br>
+2.<a href="https://github.com/flutter">Flutter 的 Github</a><br>
+3.<a href="https://flutterchina.club/">国内 Flutter 中文网</a><br>
+4.<a href="https://pub.dev/">Flutter Pub仓库</a><br>
+5.<a href="https://dartpad.cn/">Dartpad</a><br>
+6.<a href="https://blog.csdn.net/mengks1987">老孟Flutter</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Java 学习资料]]></title>
         <id>https://yancechen.github.io/post/java-xue-xi-zi-liao/</id>

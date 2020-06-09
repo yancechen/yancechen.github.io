@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Flutter 学习资料汇总 | Yance Chen</title>
+<title>Magpie 接入流程详解 | Yance Chen</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,11 +18,14 @@
 
 
 
-    <meta name="description" content="入门
-1.Android跨平台：请收好这份快速入门Flutter的学习指南！
-2.Build Native Mobile Apps with Flutter
-..." />
-    <meta name="keywords" content="Flutter" />
+    <meta name="description" content="本篇文章会详细介绍 magpie 的接入流程
+
+开源项目名称：magpie
+github地址：
+https://github.com/wuba/magpie
+https://github.com/wuba/magpie_sdk
+https:..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -93,33 +96,58 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Flutter 学习资料汇总</h2>
-            <div class="post-date">2020-06-08</div>
+            <h2 class="post-title">Magpie 接入流程详解</h2>
+            <div class="post-date">2020-06-09</div>
             
-              <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/flutter-xue-xi-zi-liao-hui-zong.jpeg')">
+              <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png')">
               </div>
             
             <div class="post-content" v-pre>
-              <h3 id="入门">入门</h3>
-<p>1.<a href="https://www.jianshu.com/p/0a19cf96dbe3">Android跨平台：请收好这份快速入门Flutter的学习指南！</a><br>
-2.<a href="https://cn.udacity.com/course/build-native-mobile-apps-with-flutter--ud905">Build Native Mobile Apps with Flutter</a></p>
+              <p>本篇文章会详细介绍 magpie 的接入流程</p>
+<!-- more -->
+<p>开源项目名称：magpie</p>
+<p>github地址：<br>
+https://github.com/wuba/magpie<br>
+https://github.com/wuba/magpie_sdk<br>
+https://github.com/wuba/magpie_fly<br>
+https://github.com/wuba/magpie_log</p>
+<p>关于 magpie 的介绍：<br>
+<a href="https://mp.weixin.qq.com/s/vbGKxPJ3YkpSBHEkCQVXzQ">Magpie：平台工具链开发实践</a><br>
+<a href="https://mp.weixin.qq.com/s/LP-o2QUYdbeDfygVgmSZQw">Magpie：混合开发工程化框架</a><br>
+<a href="https://mp.weixin.qq.com/s/tUPX7ZwSOELdMBbecFsd0A">Magpie：Magpie在安居客有料业务的落地实践</a></p>
+<h3 id="为什么要写这篇文章">为什么要写这篇文章？</h3>
+<p>假设我们正在开发和维护一个 Android 项目，名叫：<code>MyProject</code>。</p>
+<h3 id="一-接入步骤">一、接入步骤</h3>
+<h4 id="一安装-magpie-脚手架install-cli">（一）安装 Magpie 脚手架（Install cli）</h4>
+<pre><code>pub global activate magpie_cli
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://yancechen.github.io/post-images/1590567934223.jpeg" alt="" loading="lazy"></figure>
+<h4 id="二start-workflow">（二）Start Workflow</h4>
+<p>1.Create module project</p>
+<pre><code>mgpcli create -n flutter_sample
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://yancechen.github.io/post-images/1590568107956.png" alt="" loading="lazy"></figure>
+<p>2.Start service</p>
+<pre><code>cd flutter_sample
+mgpcli start
+</code></pre>
+<p>运行了<code>mgpcli start</code>命令会自动打开 magpie 的可视化管理页面<br>
+<img src="https://yancechen.github.io/post-images/1590568152958.png" alt="" loading="lazy"></p>
+<p>3.Switch to browser<br>
+The browser should have been opened instantly，<a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></p>
+<p>遇到的问题合集：<br>
+1.com.wuba.magpie:magpie_flutter_debug_default:0.0.1 这个库依赖失败<br>
+多试几次<br>
+2.<img src="https://yancechen.github.io/post-images/1590572067356.png" alt="" loading="lazy"></p>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://yancechen.github.io/tag/fNJYszYEs/" class="tag">
-                    Flutter
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://yancechen.github.io/post/hello-gridea/">
+                <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
                   <h3 class="post-title">
-                    Hello Gridea
+                    常用网站
                   </h3>
                 </a>
               </div>
