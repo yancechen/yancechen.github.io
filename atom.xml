@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yancechen.github.io</id>
     <title>陈有余</title>
-    <updated>2020-06-09T04:19:14.540Z</updated>
+    <updated>2020-06-18T08:53:16.731Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yancechen.github.io"/>
     <link rel="self" href="https://yancechen.github.io/atom.xml"/>
@@ -10,6 +10,27 @@
     <logo>https://yancechen.github.io/images/avatar.png</logo>
     <icon>https://yancechen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 陈有余</rights>
+    <entry>
+        <title type="html"><![CDATA[书单]]></title>
+        <id>https://yancechen.github.io/post/shu-dan/</id>
+        <link href="https://yancechen.github.io/post/shu-dan/">
+        </link>
+        <updated>2020-06-18T08:41:56.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="一-linux-学习">一、Linux 学习</h3>
+<ol>
+<li><a href="https://book.douban.com/subject/26586598/">《性能之巅》</a></li>
+<li><a href="https://book.douban.com/subject/30269276/">《最强 Android 书：架构大剖析》</a></li>
+<li><a href="https://time.geekbang.org/column/140">极客时间专栏：Linux 性能优化实战</a></li>
+</ol>
+<h3 id="二-虚拟机以及-hook-相关的知识">二、虚拟机以及 Hook 相关的知识</h3>
+<ol>
+<li><a href="https://book.douban.com/subject/3652388/">《程序员的自我修养——链接、装载与库》</a></li>
+<li><a href="https://book.douban.com/subject/26740958/">《垃圾回收算法手册》</a></li>
+<li><a href="https://book.douban.com/subject/5908727/">《More Effective C++（中文版）》</a></li>
+<li><a href="https://book.douban.com/subject/30412517/">《Effective Java中文版（第3版）》</a></li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Magpie 接入流程详解]]></title>
         <id>https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/</id>
