@@ -1,163 +1,64 @@
-<!doctype html>
-<html amp lang="">
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>Magpie 接入流程详解 | 陈有余</title>
+        <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
 
-<head>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="本篇文章会详细介绍 magpie 的接入流程
-
-开源项目名称：magpie
-github地址：
-https://github.com/wuba/magpie
-https://github.com/wuba/magpie_sdk
-https:..." />
-<link rel="preload" as="script" href="https://cdn.ampproject.org/v0.js">
-<link rel="preconnect dns-prefetch" href="https://cdn.jsdelivr.net/" crossorigin>
-<script async src="https://cdn.ampproject.org/v0.js"></script>
-<title>Magpie 接入流程详解 | 陈有余</title>
-
-
-  
-
-    
-
-
-<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
-<noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-<link rel="canonical" href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/" />
-<link rel="shortcut icon" href="https://yancechen.github.io/favicon.ico?v=1594015415398">
-
-<meta name="author" content="">
-
-<meta itemprop="name" content="Magpie 接入流程详解 | 陈有余">
-<meta itemprop="description" content="本篇文章会详细介绍 magpie 的接入流程
-
-开源项目名称：magpie
-github地址：
-https://github.com/wuba/magpie
-https://github.com/wuba/magpie_sdk
-https:...">
-<meta itemprop="image" content="https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Magpie 接入流程详解 | 陈有余">
-<meta name="twitter:description" content="本篇文章会详细介绍 magpie 的接入流程
-
-开源项目名称：magpie
-github地址：
-https://github.com/wuba/magpie
-https://github.com/wuba/magpie_sdk
-https:...">
-<meta name="twitter:image" content="https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png" />
-<meta name="twitter:image:alt" content="Magpie 接入流程详解 | 陈有余" />
-
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">
-<meta property="og:title" content="Magpie 接入流程详解 | 陈有余">
-<meta property="og:description" content="本篇文章会详细介绍 magpie 的接入流程
-
-开源项目名称：magpie
-github地址：
-https://github.com/wuba/magpie
-https://github.com/wuba/magpie_sdk
-https:...">
-<meta property="og:image" content="https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png">
-<meta property="og:image:alt" content="Magpie 接入流程详解 | 陈有余" />
-<meta property="og:site_name" content="陈有余">
-<meta property="og:locale" content="zh_CN">
-<meta property="tag" content="Magpie 接入流程详解 | 陈有余" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="alternate" type="application/atom+xml" title="Magpie 接入流程详解 | 陈有余 - Atom Feed" href="https://yancechen.github.io/atom.xml">
-
-
-
-  
-
-
-
-  
-
-
-</head>
-
-<body>
-  <input type="checkbox" id="header-menu-button">
-  <header id="commonTop">
-  <div class="top-container">
-    <div class="title-menus-area">
-      <a class="blog-title" href="https://yancechen.github.io">陈有余</a>
-      <label for="header-menu-button" class="top-menus">
-        <nav class="menu-menu-1-container">
-          <ul id="menu-menu-1" class="menu">
-            
-            
-            <li>
-              <a href="/" aria-current="page">首页</a></li>
-            
-            
-            
-            <li>
-              <a href="/archives" aria-current="page">归档</a></li>
-            
-            
-            
-            <li>
-              <a href="/tags" aria-current="page">标签</a></li>
-            
-            
-            
-            <li>
-              <a href="/post/about" aria-current="page">关于</a></li>
-            
-            
-          </ul>
-        </nav>
-      </label>
-    </div>
-    
-  </div>
-</header>
-  <main>
-    <div class="main-container">
-
-      <div class="article-info">
-        
-          <div class="flex-box meta-category">
-            <a class="post-cate" href="https://yancechen.github.io/tag/fNJYszYEs/">Flutter</a></div>
-          
-        <h2 class="article-title">
-          <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">Magpie 接入流程详解</a>
-        </h2>
-        <div class="flex-box">
-          <div class="flex-box post-meta-box">
-            <a class="post-meta" href="https://yancechen.github.io"><span
-                class="iconfont icon-mr-postmeta"></span></a>
-            <span class="post-meta"><span class="iconfont icon-mr-postmeta"></span>2020 年 06	月 9日</span>
-            
-
-
-          </div>
-        </div>
-      </div>
-      <div class="content">
-        <p>本篇文章会详细介绍 magpie 的接入流程</p>
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://yancechen.github.io">陈有余</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">万物之中，希望至美</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">Magpie 接入流程详解</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2020-06-09 11:17:50">2020-06-09 / 1 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><p>本篇文章会详细介绍 magpie 的接入流程</p>
 <!-- more -->
 <p>开源项目名称：magpie</p>
 <p>github地址：<br>
@@ -193,88 +94,87 @@ The browser should have been opened instantly，<a href="http://127.0.0.1:8080">
 1.com.wuba.magpie:magpie_flutter_debug_default:0.0.1 这个库依赖失败<br>
 多试几次<br>
 2.<img src="https://yancechen.github.io/post-images/1590572067356.png" alt="" loading="lazy"></p>
-
-      </div>
-
-      
-      <nav class="post-nav">
-        
-        
-        <div class="nav-next">
-          <a class="post-nav-link-active" title="常用网站" href="https://yancechen.github.io/post/chang-yong-wang-zhan/">下一篇文章</a>
-          
-
-        </div>
-      </nav>
-      
-
-      
-      
-
-      <div class="post-tags">
-        
-        <a href="https://yancechen.github.io/tag/fNJYszYEs/" rel="tag">Flutter</a>        
-               
-      </div>
-
-
-        
-
-    </div>
-
-    <div class="sidebar">
-  <aside id="profile-2" class="widget widget_profile">
-    <div class="profile-box">
-      <div class="profile-avatar">
-        <amp-img src="https://yancechen.github.io/images/avatar.png?v=1594015415398" alt="avatar"
-          layout="fill"></amp-img>
-      </div>
-      <div class="profile-content">
-        <div class="amp-wp-681d4ff">
-          万物之中，希望至美
-        </div>
-
-      </div>
-    </div>
-  </aside>
-  
-    
-  
-     
-
-
-  <aside id="linkcat-2" class="widget widget_links">
-  <h4 class="widget-title">友链</h4>
-  <ul class="xoxo blogroll">
-    
-  </ul>
-</aside>
-
-
 </div>
-    <div class="scrolltop-wrap">
-  <span tabindex="0" role="button" class="go-top" on="tap:commonTop.scrollTo(duration=500, position=top)">
-    <span class="iconfont"></span>
-  </span>
-</div>
-  </main>
-  <footer>
-  <div class="footer-container">
-    <div class="footer-menus">
-    </div>
-    <div class="footer-copyright">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-      
-      
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> </div>
+                                        
 
-    </div>
-  </div>
-</footer>
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">常用网站</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://yancechen.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
 
-
-  
+<script>
+      new Valine({
+            el: '.comment',
 
 
-</body>
 
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/shanbufun/gridea-theme-song" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
 </html>
