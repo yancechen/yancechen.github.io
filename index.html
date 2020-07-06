@@ -1,232 +1,58 @@
-
 <html>
   <head>
-    
-<meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>陈有余</title>
-<meta name="description" content="万物之中，希望至美">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://yancechen.github.io/favicon.ico?v=1594004381501">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="shortcut icon" href="https://yancechen.github.io/favicon.ico?v=1594005799557">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="陈有余 - Atom Feed" href="https://yancechen.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
+    <meta name="description" content="万物之中，希望至美" />
   </head>
   <body>
-    <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://yancechen.github.io">
-        <img class="avatar" src="https://yancechen.github.io/images/avatar.png?v=1594004381501" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://yancechen.github.io">
-        <h1 class="site-title">陈有余</h1>
-      </a>
-    </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yancechen.github.io">
+  <img class="avatar" src="https://yancechen.github.io/images/avatar.png?v=1594005799557" alt="">
+  </a>
+  <h1 class="site-title">
+    陈有余
+  </h1>
+  <p class="site-description">
+    万物之中，希望至美
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
-      
-        
-          <a href="/" class="menu purple-link">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="menu purple-link">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="menu purple-link">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="menu purple-link">
-            关于
-          </a>
-        
-      
-    </div>
-  </div>
-</transition>
-
-
-      <div class="content-container">
-        
-        
-<section class="post-item">
-    <div class="content">
-      <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">
-        <h2 class="post-title">Magpie 接入流程详解</h2>
-      </a>
-      <div class="post-abstract">
-        <p>本篇文章会详细介绍 magpie 的接入流程</p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2020-06-09</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://yancechen.github.io/tag/fNJYszYEs/">
-                Flutter
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-    
-      <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">
-        <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png')">
-        </div>
-      </a>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
-        <h2 class="post-title">常用网站</h2>
-      </a>
-      <div class="post-abstract">
-        <p>常用网站梳理，方便访问</p>
-
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2020-06-09</span>
-        
-      </div>
-    </div>
-    
-      <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
-        <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/chang-yong-wang-zhan.jpeg')">
-        </div>
-      </a>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/">
-        <h2 class="post-title">Java 学习资料</h2>
-      </a>
-      <div class="post-abstract">
-        
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2020-06-08</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://yancechen.github.io/tag/MDTxNuc5t/">
-                Java
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-    
-      <a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/">
-        <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/java-xue-xi-zi-liao.jpeg')">
-        </div>
-      </a>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">
-        <h2 class="post-title">Android Studio for mac 快捷键设置</h2>
-      </a>
-      <div class="post-abstract">
-        
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2020-06-08</span>
-        
-      </div>
-    </div>
-    
-      <a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">
-        <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/android-studio-for-mac-kuai-jie-jian-she-zhi.jpg')">
-        </div>
-      </a>
-    
-  </section>
-
-<section class="post-item">
-    <div class="content">
-      <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
-        <h2 class="post-title">Flutter 学习资料汇总</h2>
-      </a>
-      <div class="post-abstract">
-        
-      </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2020-06-08</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://yancechen.github.io/tag/fNJYszYEs/">
-                Flutter
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-    
-      <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
-        <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/flutter-xue-xi-zi-liao-hui-zong.jpeg')">
-        </div>
-      </a>
-    
-  </section>
-
-
-<div class="pagination-container">
-  
-  
-</div>
-
-
-      </div>
-
-      <div class="site-footer">
-  <div class="slogan">万物之中，希望至美</div>
   <div class="social-container">
     
       
@@ -240,26 +66,152 @@
       
     
   </div>
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yancechen.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
+    
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">
+        <h2 class="post-title">Magpie 接入流程详解</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2020-06-09
+        </span>
+        <span>
+          1 min read
+        </span>
+        
+          <a href="https://yancechen.github.io/tag/fNJYszYEs/" class="post-tag">
+            # Flutter
+          </a>
+        
+      </div>
+      
+        <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/" class="post-feature-image" style="background-image: url('https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png')">
+        </a>
+      
+      <div class="post-abstract">
+        <p>本篇文章会详细介绍 magpie 的接入流程</p>
 
+      </div>
+    </article>
+  
+    <article class="post">
+      <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
+        <h2 class="post-title">常用网站</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2020-06-09
+        </span>
+        <span>
+          1 min read
+        </span>
+        
+      </div>
+      
+        <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/" class="post-feature-image" style="background-image: url('https://yancechen.github.io/post-images/chang-yong-wang-zhan.jpeg')">
+        </a>
+      
+      <div class="post-abstract">
+        <p>常用网站梳理，方便访问</p>
+
+      </div>
+    </article>
+  
+    <article class="post">
+      <a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/">
+        <h2 class="post-title">Java 学习资料</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2020-06-08
+        </span>
+        <span>
+          1 min read
+        </span>
+        
+          <a href="https://yancechen.github.io/tag/MDTxNuc5t/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+        <a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/" class="post-feature-image" style="background-image: url('https://yancechen.github.io/post-images/java-xue-xi-zi-liao.jpeg')">
+        </a>
+      
+      <div class="post-abstract">
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">
+        <h2 class="post-title">Android Studio for mac 快捷键设置</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2020-06-08
+        </span>
+        <span>
+          1 min read
+        </span>
+        
+      </div>
+      
+        <a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/" class="post-feature-image" style="background-image: url('https://yancechen.github.io/post-images/android-studio-for-mac-kuai-jie-jian-she-zhi.jpg')">
+        </a>
+      
+      <div class="post-abstract">
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
+        <h2 class="post-title">Flutter 学习资料汇总</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2020-06-08
+        </span>
+        <span>
+          1 min read
+        </span>
+        
+          <a href="https://yancechen.github.io/tag/fNJYszYEs/" class="post-tag">
+            # Flutter
+          </a>
+        
+      </div>
+      
+        <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/" class="post-feature-image" style="background-image: url('https://yancechen.github.io/post-images/flutter-xue-xi-zi-liao-hui-zong.jpeg')">
+        </a>
+      
+      <div class="post-abstract">
+        
+      </div>
+    </article>
+  
+</div>
+
+    
+        <div class="pagination-container">
+  
+  
+</div>
+
+    
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yancechen.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
     </div>
-    <script type="application/javascript">
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
-</script>
-
-
-
-
   </body>
 </html>

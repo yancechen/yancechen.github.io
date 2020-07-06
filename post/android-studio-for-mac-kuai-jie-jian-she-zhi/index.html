@@ -1,117 +1,63 @@
-
-<!DOCTYPE html>
 <html>
   <head>
-    
-<meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Android Studio for mac 快捷键设置 | 陈有余</title>
-<meta name="description" content="万物之中，希望至美">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://yancechen.github.io/favicon.ico?v=1594004381501">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="shortcut icon" href="https://yancechen.github.io/favicon.ico?v=1594005799557">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Android Studio for mac 快捷键设置 | 陈有余 - Atom Feed" href="https://yancechen.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
+    <meta name="description" content="1.左键查看源码，总弹出右键菜单
+在mac中使用 Android studio，需要进入某一个类，或者查看调用的方法时，要使用ctrl＋左键来进入，但是这个又是系统右键的快捷键，所以我们需要覆盖一下快捷键的设置。
+KeyMap 中搜索 De..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://yancechen.github.io">
-        <img class="avatar" src="https://yancechen.github.io/images/avatar.png?v=1594004381501" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://yancechen.github.io">
-        <h1 class="site-title">陈有余</h1>
-      </a>
-    </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yancechen.github.io">
+  <img class="avatar" src="https://yancechen.github.io/images/avatar.png?v=1594005799557" alt="">
+  </a>
+  <h1 class="site-title">
+    陈有余
+  </h1>
+  <p class="site-description">
+    万物之中，希望至美
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
-      
-        
-          <a href="/" class="menu purple-link">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="menu purple-link">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="menu purple-link">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="menu purple-link">
-            关于
-          </a>
-        
-      
-    </div>
-  </div>
-</transition>
-
-
-      <div class="content-container">
-        <div class="post-detail">
-          
-            <div class="feature-container" style="background-image: url('https://yancechen.github.io/post-images/android-studio-for-mac-kuai-jie-jian-she-zhi.jpg')">
-            </div>
-          
-          <h2 class="post-title">Android Studio for mac 快捷键设置</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-06-08</span>
-            
-          </div>
-          <div class="post-content">
-            <h3 id="1左键查看源码总弹出右键菜单">1.左键查看源码，总弹出右键菜单</h3>
-<p>在mac中使用 Android studio，需要进入某一个类，或者查看调用的方法时，要使用ctrl＋左键来进入，但是这个又是系统右键的快捷键，所以我们需要覆盖一下快捷键的设置。</p>
-<p>KeyMap 中搜索 Declaration，点击 Add Mouse Shortcut，添加 cmd+左键，即可完成覆盖，以后再也不会弹出右键的提示了。</p>
-<figure data-type="image" tabindex="1"><img src="https://yancechen.github.io/post-images/1591599326422.png" alt="" loading="lazy"></figure>
-
-          </div>
-        </div>
-
-        
-          <div class="next-post">
-            <a class="purple-link" href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
-              <h3 class="post-title">
-                下一篇：Flutter 学习资料汇总
-              </h3>
-            </a>
-          </div>
-          
-      </div>
-
-      
-
-      <div class="site-footer">
-  <div class="slogan">万物之中，希望至美</div>
   <div class="social-container">
     
       
@@ -125,26 +71,113 @@
       
     
   </div>
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yancechen.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Android Studio for mac 快捷键设置
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-06-08
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://yancechen.github.io/post-images/android-studio-for-mac-kuai-jie-jian-she-zhi.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="1左键查看源码总弹出右键菜单">1.左键查看源码，总弹出右键菜单</h3>
+<p>在mac中使用 Android studio，需要进入某一个类，或者查看调用的方法时，要使用ctrl＋左键来进入，但是这个又是系统右键的快捷键，所以我们需要覆盖一下快捷键的设置。</p>
+<p>KeyMap 中搜索 Declaration，点击 Add Mouse Shortcut，添加 cmd+左键，即可完成覆盖，以后再也不会弹出右键的提示了。</p>
+<figure data-type="image" tabindex="1"><img src="https://yancechen.github.io/post-images/1591599326422.png" alt="" loading="lazy"></figure>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1%E5%B7%A6%E9%94%AE%E6%9F%A5%E7%9C%8B%E6%BA%90%E7%A0%81%E6%80%BB%E5%BC%B9%E5%87%BA%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95">1.左键查看源码，总弹出右键菜单</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
+              <h3 class="post-title">
+                Flutter 学习资料汇总
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yancechen.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
     </div>
-    <script type="application/javascript">
 
-hljs.initHighlightingOnLoad()
+    <script>
+      hljs.initHighlightingOnLoad()
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-</script>
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-
+    </script>
   </body>
 </html>
