@@ -1,271 +1,164 @@
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8"/>
-<meta name="description" content=""/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>陈有余</title>
-<link rel="shortcut icon" href="https://yancechen.github.io/favicon.ico?v=1594022476139">
-<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
-<link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>陈有余</title>
+        <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
 
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-
-<!-- DEMO JS -->
-<!--<script src="media/scripts/index.js"></script>-->
-
-
-
-</head>
-<body>
-<div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
-    <div class="navbar-brand">
-        <img class="user-avatar" src="/images/avatar.png" alt="头像">
-        <div class="site-name gt-c-content-color-first">
-            陈有余
-        </div>
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-nav mr-auto" style="text-align: center">
-            
-                <div class="nav-item">
+    </head>
+    <body>
+          <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://yancechen.github.io">陈有余</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">万物之中，希望至美</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
                     
-                        <a href="/" class="menu gt-a-link">
-                            首页
-                        </a>
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
                     
-                </div>
-            
-                <div class="nav-item">
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
                     
-                        <a href="/archives" class="menu gt-a-link">
-                            归档
-                        </a>
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
                     
+                  </nav>
                 </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/tags" class="menu gt-a-link">
-                            标签
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/about" class="menu gt-a-link">
-                            关于
-                        </a>
-                    
-                </div>
-            
-        </div>
-    </div>
-</nav>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 mdui-m-t-1">
+                         
+                                                         
+                               <article class="mdui-p-a-5 index-list mdui-m-b-3 animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="mdui-typo-body-2 mdui-m-b-1" datetime="2020-06-09 11:17:50">2020-06-09</div>
+                                    <div class="mdui-typo-headline mdui-m-b-3 index-list-title index-guo"><a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">Magpie 接入流程详解</a></div>
+                                    <div class="mdui-typo-subheading mdui-m-b-2 index-neirong"><p>本篇文章会详细介绍 magpie 的接入流程
 
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">
-                            <span class="post-title gt-c-content-color-first">Magpie 接入流程详解</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>本篇文章会详细介绍 magpie 的接入流程</p>
+开源项目名称：magpie
+github地址：
+https://github.com/wuba/magpie
+https://github.com/wuba/magpie_sdk
+https:...</p></div>
+                                    <div class="index-list-rm index-guo"><a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">Read More</a></div>
+                                </article>
+                                
+                               <article class="mdui-p-a-5 index-list mdui-m-b-3 animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="mdui-typo-body-2 mdui-m-b-1" datetime="2020-06-09 11:16:39">2020-06-09</div>
+                                    <div class="mdui-typo-headline mdui-m-b-3 index-list-title index-guo"><a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">常用网站</a></div>
+                                    <div class="mdui-typo-subheading mdui-m-b-2 index-neirong"><p>常用网站梳理，方便访问
 
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-06-09 ·
-                        </time>
-                        
-                            <a href="https://yancechen.github.io/tag/fNJYszYEs/" class="post-tag">
-                                # Flutter
-                            </a>
-                        
-                    </div>
-                </div>
-                
-                    <a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/" class="post-feature-image"
-                       style="background-image: url('https://yancechen.github.io/post-images/magpie-jie-ru-liu-cheng-xiang-jie.png')">
-                    </a>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
-                            <span class="post-title gt-c-content-color-first">常用网站</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>常用网站梳理，方便访问</p>
+一、github
+1.Google Open Source
+2.Alibaba Open Source
+3.SmartisanTech
+4.Tencent
+5.Jake Wharton
+6.Gradle
+7.Flu...</p></div>
+                                    <div class="index-list-rm index-guo"><a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">Read More</a></div>
+                                </article>
+                                
+                               <article class="mdui-p-a-5 index-list mdui-m-b-3 animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="mdui-typo-body-2 mdui-m-b-1" datetime="2020-06-08 17:37:36">2020-06-08</div>
+                                    <div class="mdui-typo-headline mdui-m-b-3 index-list-title index-guo"><a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/">Java 学习资料</a></div>
+                                    <div class="mdui-typo-subheading mdui-m-b-2 index-neirong"><p>一、快速入门
+1.https://how2j.cn/
+</p></div>
+                                    <div class="index-list-rm index-guo"><a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/">Read More</a></div>
+                                </article>
+                                
+                               <article class="mdui-p-a-5 index-list mdui-m-b-3 animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="mdui-typo-body-2 mdui-m-b-1" datetime="2020-06-08 14:52:51">2020-06-08</div>
+                                    <div class="mdui-typo-headline mdui-m-b-3 index-list-title index-guo"><a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">Android Studio for mac 快捷键设置</a></div>
+                                    <div class="mdui-typo-subheading mdui-m-b-2 index-neirong"><p>1.左键查看源码，总弹出右键菜单
+在mac中使用 Android studio，需要进入某一个类，或者查看调用的方法时，要使用ctrl＋左键来进入，但是这个又是系统右键的快捷键，所以我们需要覆盖一下快捷键的设置。
+KeyMap 中搜索 De...</p></div>
+                                    <div class="index-list-rm index-guo"><a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">Read More</a></div>
+                                </article>
+                                
+                               <article class="mdui-p-a-5 index-list mdui-m-b-3 animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="mdui-typo-body-2 mdui-m-b-1" datetime="2020-06-08 10:41:08">2020-06-08</div>
+                                    <div class="mdui-typo-headline mdui-m-b-3 index-list-title index-guo"><a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">Flutter 学习资料汇总</a></div>
+                                    <div class="mdui-typo-subheading mdui-m-b-2 index-neirong"><p>一、Flutter 官网
+Flutter 官方中文网
+二、入门
+1.Android跨平台：请收好这份快速入门Flutter的学习指南！
+2.Build Native Mobile Apps with Flutter
+...</p></div>
+                                    <div class="index-list-rm index-guo"><a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">Read More</a></div>
+                                </article>
+                                
 
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-06-09 ·
-                        </time>
-                        
-                    </div>
-                </div>
-                
-                    <a href="https://yancechen.github.io/post/chang-yong-wang-zhan/" class="post-feature-image"
-                       style="background-image: url('https://yancechen.github.io/post-images/chang-yong-wang-zhan.jpeg')">
-                    </a>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/">
-                            <span class="post-title gt-c-content-color-first">Java 学习资料</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-06-08 ·
-                        </time>
-                        
-                            <a href="https://yancechen.github.io/tag/MDTxNuc5t/" class="post-tag">
-                                # Java
-                            </a>
-                        
-                    </div>
-                </div>
-                
-                    <a href="https://yancechen.github.io/post/java-xue-xi-zi-liao/" class="post-feature-image"
-                       style="background-image: url('https://yancechen.github.io/post-images/java-xue-xi-zi-liao.jpeg')">
-                    </a>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">
-                            <span class="post-title gt-c-content-color-first">Android Studio for mac 快捷键设置</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-06-08 ·
-                        </time>
-                        
-                    </div>
-                </div>
-                
-                    <a href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/" class="post-feature-image"
-                       style="background-image: url('https://yancechen.github.io/post-images/android-studio-for-mac-kuai-jie-jian-she-zhi.jpg')">
-                    </a>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
-                            <span class="post-title gt-c-content-color-first">Flutter 学习资料汇总</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-06-08 ·
-                        </time>
-                        
-                            <a href="https://yancechen.github.io/tag/fNJYszYEs/" class="post-tag">
-                                # Flutter
-                            </a>
-                        
-                    </div>
-                </div>
-                
-                    <a href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/" class="post-feature-image"
-                       style="background-image: url('https://yancechen.github.io/post-images/flutter-xue-xi-zi-liao-hui-zong.jpeg')">
-                    </a>
-                
-            </div>
-        
-    </div>
-</div>
+                                                            <nav class="mdui-m-t-5">
+                                
+                                
+                                </nav>     
 
-        <div class="pagination-container">
-    
-    
-</div>
-
-
-        <div class="site-footer gt-c-content-color-first">
-    <div class="slogan gt-c-content-color-first">万物之中，希望至美</div>
-    <div class="social-container">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    </div>
-    <div class="footer-info">
-        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-    </div>
-    <div>
-        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
-                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://yancechen.github.io/atom.xml" target="_blank">RSS</a></a>
-    </div>
-</div>
-
-<script>
-    hljs.initHighlightingOnLoad()
-</script>
-
-    </div>
-</div>
-</body>
+                        </div>
+                      </div>
+              </div>
+                <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/shanbufun/gridea-theme-song" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
 </html>
