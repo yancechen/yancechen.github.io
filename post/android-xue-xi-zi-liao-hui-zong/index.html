@@ -3,7 +3,7 @@
         <head>
         <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
         <meta charset="utf-8">
-        <title>Magpie 接入流程详解 | 陈有余</title>
+        <title>Android 学习资料汇总 | 陈有余</title>
         <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
         <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
         <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
@@ -56,53 +56,25 @@
                 <div class="mdui-row">
                         <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
                                 <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
-                                    <div class="post-title  mdui-m-b-1">Magpie 接入流程详解</div>
-                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2020-06-09 11:17:50">2020-06-09 / 1 min read</div>
-                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><p>本篇文章会详细介绍 magpie 的接入流程</p>
-<!-- more -->
-<p>开源项目名称：magpie</p>
-<p>github地址：<br>
-https://github.com/wuba/magpie<br>
-https://github.com/wuba/magpie_sdk<br>
-https://github.com/wuba/magpie_fly<br>
-https://github.com/wuba/magpie_log</p>
-<p>关于 magpie 的介绍：<br>
-<a href="https://mp.weixin.qq.com/s/vbGKxPJ3YkpSBHEkCQVXzQ">Magpie：平台工具链开发实践</a><br>
-<a href="https://mp.weixin.qq.com/s/LP-o2QUYdbeDfygVgmSZQw">Magpie：混合开发工程化框架</a><br>
-<a href="https://mp.weixin.qq.com/s/tUPX7ZwSOELdMBbecFsd0A">Magpie：Magpie在安居客有料业务的落地实践</a></p>
-<h3 id="为什么要写这篇文章">为什么要写这篇文章？</h3>
-<p>假设我们正在开发和维护一个 Android 项目，名叫：<code>MyProject</code>。</p>
-<h3 id="一-接入步骤">一、接入步骤</h3>
-<h4 id="一安装-magpie-脚手架install-cli">（一）安装 Magpie 脚手架（Install cli）</h4>
-<pre><code>pub global activate magpie_cli
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://yancechen.github.io/post-images/1590567934223.jpeg" alt="" loading="lazy"></figure>
-<h4 id="二start-workflow">（二）Start Workflow</h4>
-<p>1.Create module project</p>
-<pre><code>mgpcli create -n flutter_sample
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="https://yancechen.github.io/post-images/1590568107956.png" alt="" loading="lazy"></figure>
-<p>2.Start service</p>
-<pre><code>cd flutter_sample
-mgpcli start
-</code></pre>
-<p>运行了<code>mgpcli start</code>命令会自动打开 magpie 的可视化管理页面<br>
-<img src="https://yancechen.github.io/post-images/1590568152958.png" alt="" loading="lazy"></p>
-<p>3.Switch to browser<br>
-The browser should have been opened instantly，<a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></p>
-<p>遇到的问题合集：<br>
-1.com.wuba.magpie:magpie_flutter_debug_default:0.0.1 这个库依赖失败<br>
-多试几次<br>
-2.<img src="https://yancechen.github.io/post-images/1590572067356.png" alt="" loading="lazy"></p>
+                                    <div class="post-title  mdui-m-b-1">Android 学习资料汇总</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2020-07-09 14:38:13">2020-07-09 / 1 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h3 id="一-webview">一、WebView</h3>
+<p>来自 Carson_Ho 的文章</p>
+<ol>
+<li><a href="https://www.jianshu.com/p/d2d4f652029d">Android Hybrid开发：这是一份详细 &amp; 全面的WebView学习攻略</a></li>
+<li><a href="https://www.jianshu.com/p/5e7075f4875f">Android：手把手教你构建 全面的WebView 缓存机制 &amp; 资源加载方案</a></li>
+<li><a href="https://www.jianshu.com/p/345f4d8a5cfa">最全面总结 Android WebView与 JS 的交互方式</a></li>
+<li><a href="https://www.jianshu.com/p/3a345d27cd42">你不知道的 Android WebView 使用漏洞</a></li>
+</ol>
 </div>
                                     <div class="mdui-divider mdui-m-b-2"></div>
                                     <div class="mdui-row-xs-2 post-fenye">
                                        
-                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://yancechen.github.io/post/android-xue-xi-zi-liao-hui-zong/">Android 学习资料汇总</a></div></div>
+                                        <div class="mdui-col"> </div>
                                         
 
                                         
-                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://yancechen.github.io/post/chang-yong-wang-zhan/">常用网站</a></div> </div>
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://yancechen.github.io/post/magpie-jie-ru-liu-cheng-xiang-jie/">Magpie 接入流程详解</a></div> </div>
                                        
                                       </div>
                                    
