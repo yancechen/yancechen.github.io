@@ -1,22 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://yancechen.github.io</id>
-    <title>陈有余</title>
-    <updated>2020-09-16T04:57:06.010Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://yancechen.github.io"/>
-    <link rel="self" href="https://yancechen.github.io/atom.xml"/>
-    <subtitle>万物之中，希望至美</subtitle>
-    <logo>https://yancechen.github.io/images/avatar.png</logo>
-    <icon>https://yancechen.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, 陈有余</rights>
-    <entry>
-        <title type="html"><![CDATA[Jetpack 之 LifeCycle 组件使用详解]]></title>
-        <id>https://yancechen.github.io/post/jetpack-zhi-lifecycle-zu-jian-shi-yong-xiang-jie/</id>
-        <link href="https://yancechen.github.io/post/jetpack-zhi-lifecycle-zu-jian-shi-yong-xiang-jie/">
-        </link>
-        <updated>2020-09-16T04:56:29.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="一-lifecycle-简介">一、LifeCycle 简介</h1>
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>Jetpack 之 LifeCycle 组件使用详解 | 陈有余</title>
+        <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://yancechen.github.io">陈有余</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">万物之中，希望至美</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">Jetpack 之 LifeCycle 组件使用详解</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2020-09-16 12:56:29">2020-09-16 / 9 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h1 id="一-lifecycle-简介">一、LifeCycle 简介</h1>
 <p>LifeCycle 是一个可以感知宿主生命周期变化的组件。常见的宿主包括 Activity/Fragment、Service 和 Application。LifeCycle 会持有宿主的生命周期状态的信息，当宿主生命周期发生变化时，会通知监听宿主的观察者。</p>
 <p><strong>LifeCycle 的出现主要是为了解决：</strong> 系统组件的生命周期与普通组件之间的耦合性。</p>
 <ul>
@@ -288,126 +330,87 @@ public class MyVideoPlayObserver implements LifecycleEventObserver {
 <p><a href="https://developer.android.google.cn/jetpack">Google Jetpack 官方文档</a></p>
 <p><a href="https://www.imooc.com/u/index/read">慕课专栏：跟架构师学Jetpack</a></p>
 <p>《Android Jetpack 应用指南》叶坤</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Jetpack 简介]]></title>
-        <id>https://yancechen.github.io/post/jetpack-jian-jie/</id>
-        <link href="https://yancechen.github.io/post/jetpack-jian-jie/">
-        </link>
-        <updated>2020-09-16T04:55:52.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="一-什么是-jetpack">一、什么是 Jetpack</h1>
-<p>Jetpack 是一个丰富的组件库，它的组件库按类别分为 4 类，分别是架构（Architecture）、界面（UI）、行为（behavior）和基础（foundation）。每个组件都可以单独使用，也可以配合在一起使用。每个组件都给用户提供了一个标准，能够帮助开发者遵循最佳做法，减少样板代码并编写可在各种 Android 版本和设备中一致运行的代码，让开发者能够集中精力编写重要的业务代码。</p>
-<figure data-type="image" tabindex="1"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ba3329982141490d827ea059b2100a34~tplv-k3u1fbpfcp-zoom-1.image" alt="图1" loading="lazy"></figure>
-<h1 id="二-jetpack-的优势">二、Jetpack 的优势</h1>
-<h2 id="一解决了-android-架构问题">（一）解决了 Android 架构问题</h2>
-<p>由于之前 Google 并没有推出关于 Android 应用程序架构设计的标准，因此，很多工程师只能自己创造各种解决方案，但这些方案都普遍存在两个问题：</p>
-<ul>
-<li>非 Google 官方解决方案</li>
-</ul>
-<p>一般有经验的工程师，都会从自己做过的项目中，总结出一套自己的架构设计，并且将其应用到生产环境中，不过或多或少的都会存在一定的问题，因此需要有人一直维护和持续优化项目的架构。并且随着项目需求复杂度的增加，也面临重新设计架构的工作。</p>
-<ul>
-<li>无法辨别最佳的解决方案</li>
-</ul>
-<p>由于每个工程师的设计思路都不相同，因此，也无法确认到底谁的架构是最佳方案，最终也导致了开发出来的应用参差不齐。</p>
-<p>Google 也意识到了这些问题，因此推出了 Jetpack，让开发者能够使用标准的架构组件，而不用去纠结架构的方案设计，可以将更多的精力放在自己的业务代码上。</p>
-<h2 id="二提升了代码质量">（二）提升了代码质量</h2>
-<p>Jetpack 拥有基于生命周期感知的能力，可以减少 NPE 崩溃、内存泄漏。为我们开发出健壮且流畅的程序提供强力保障；</p>
-<h2 id="三提升了开发效率">（三）提升了开发效率</h2>
-<p>Jetpack 可以减少样板代码，有助于提升 Android 开发的效率。这些组件可以单独使用，也可以组合使用，并且在不同 Android 版本中运行一致。</p>
-<h1 id="三-jetpack-与-androidx">三、Jetpack 与 AndroidX</h1>
-<p>Jetpack 是各种组件库的统称，AndroidX 是这些组件的统一包名。</p>
-<p>AndroidX 对原始 Android Support Library 进行了重大改进，后者现在已不再维护。androidx 软件包完全取代了 support 包，不仅提供同等的功能，而且提供了新的库。Jetpack 组件中也是完全使用 androidx 开头的包名。</p>
-<p>与 Support Library 一样，androidx 命名空间中的库与 Android 平台分开提供，并向后兼容各个 Android 版本。</p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>
-<p>AndroidX 中的所有软件包都使用一致的命名空间，以字符串 androidx 开头。Support Library 软件包已映射到对应的 androidx.* 软件包。</p>
-</li>
-<li>
-<p>与 Support Library 不同，androidx 软件包会单独维护和更新。从版本 1.0.0 开始，androidx 软件包使用严格的语义版本控制。可以单独更新项目中的各个 AndroidX 库。</p>
-</li>
-<li>
-<p>版本 28.0.0 是 Support Library 的最后一个版本。以后将不再发布 android.support 库版本。所有新功能都将在 androidx 命名空间中开发。</p>
-</li>
-</ul>
-<h1 id="四-本文参考资料">四、本文参考资料</h1>
-<p><a href="https://developer.android.google.cn/jetpack">Google Jetpack 官方文档</a></p>
-<p><a href="https://www.imooc.com/u/index/read">慕课专栏：跟架构师学Jetpack</a></p>
-<p>《Android Jetpack 应用指南》叶坤</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android 学习资料汇总]]></title>
-        <id>https://yancechen.github.io/post/android-xue-xi-zi-liao-hui-zong/</id>
-        <link href="https://yancechen.github.io/post/android-xue-xi-zi-liao-hui-zong/">
-        </link>
-        <updated>2020-07-09T06:38:13.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="一-webview">一、WebView</h3>
-<p>来自 Carson_Ho 的文章</p>
-<ol>
-<li><a href="https://www.jianshu.com/p/d2d4f652029d">Android Hybrid开发：这是一份详细 &amp; 全面的WebView学习攻略</a></li>
-<li><a href="https://www.jianshu.com/p/5e7075f4875f">Android：手把手教你构建 全面的WebView 缓存机制 &amp; 资源加载方案</a></li>
-<li><a href="https://www.jianshu.com/p/345f4d8a5cfa">最全面总结 Android WebView与 JS 的交互方式</a></li>
-<li><a href="https://www.jianshu.com/p/3a345d27cd42">你不知道的 Android WebView 使用漏洞</a></li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[常用网站]]></title>
-        <id>https://yancechen.github.io/post/chang-yong-wang-zhan/</id>
-        <link href="https://yancechen.github.io/post/chang-yong-wang-zhan/">
-        </link>
-        <updated>2020-06-09T03:16:39.000Z</updated>
-        <summary type="html"><![CDATA[<p>常用网站梳理，方便访问</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>常用网站梳理，方便访问</p>
-<!-- more -->
-<h3 id="一-github">一、github</h3>
-<p>1.<a href="https://github.com/google">Google Open Source</a><br>
-2.<a href="https://github.com/alibaba">Alibaba Open Source</a><br>
-3.<a href="https://github.com/SmartisanTech">SmartisanTech</a><br>
-4.<a href="https://github.com/Tencent">Tencent</a><br>
-5.<a href="https://github.com/JakeWharton">Jake Wharton</a><br>
-6.<a href="https://github.com/gradle">Gradle</a><br>
-7.<a href="https://github.com/flutter">Flutter</a></p>
-<h3 id="二-高质量社区和博客">二、高质量社区和博客</h3>
-<p>1.<a href="https://wanandroid.com/">玩 Android</a><br>
-2.<a href="https://blog.csdn.net/guolin_blog">郭霖的专栏CSDN</a><br>
-3.<a href="http://liuwangshu.cn/">刘望舒的博客</a><br>
-4.<a href="https://blog.csdn.net/carson_ho">carson_ho 专注分享 Android开发 干货</a></p>
-<h3 id="三-flutter-学习">三、Flutter 学习</h3>
-<p>1.<a href="https://flutter.cn/docs">Flutter 官方开发文档-中文版</a><br>
-2.<a href="https://github.com/flutter">Flutter 的 Github</a><br>
-3.<a href="https://flutterchina.club/">国内 Flutter 中文网</a><br>
-4.<a href="https://pub.dev/">Flutter Pub仓库</a><br>
-5.<a href="https://dartpad.cn/">Dartpad</a><br>
-6.<a href="https://blog.csdn.net/mengks1987">老孟Flutter</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android Studio for mac 快捷键设置]]></title>
-        <id>https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/</id>
-        <link href="https://yancechen.github.io/post/android-studio-for-mac-kuai-jie-jian-she-zhi/">
-        </link>
-        <updated>2020-06-08T06:52:51.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1左键查看源码总弹出右键菜单">1.左键查看源码，总弹出右键菜单</h3>
-<p>在mac中使用 Android studio，需要进入某一个类，或者查看调用的方法时，要使用ctrl＋左键来进入，但是这个又是系统右键的快捷键，所以我们需要覆盖一下快捷键的设置。</p>
-<p>KeyMap 中搜索 Declaration，点击 Add Mouse Shortcut，添加 cmd+左键，即可完成覆盖，以后再也不会弹出右键的提示了。</p>
-<figure data-type="image" tabindex="1"><img src="https://yancechen.github.io/post-images/1591599326422.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Flutter 学习资料汇总]]></title>
-        <id>https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/</id>
-        <link href="https://yancechen.github.io/post/flutter-xue-xi-zi-liao-hui-zong/">
-        </link>
-        <updated>2020-06-08T02:41:08.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="一-flutter-官网">一、Flutter 官网</h3>
-<p><a href="https://flutter.cn/docs">Flutter 官方中文网</a></p>
-<h3 id="二-入门">二、入门</h3>
-<p>1.<a href="https://www.jianshu.com/p/0a19cf96dbe3">Android跨平台：请收好这份快速入门Flutter的学习指南！</a><br>
-2.<a href="https://cn.udacity.com/course/build-native-mobile-apps-with-flutter--ud905">Build Native Mobile Apps with Flutter</a></p>
-]]></content>
-    </entry>
-</feed>
+</div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> </div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://yancechen.github.io/post/jetpack-jian-jie/">Jetpack 简介</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://yancechen.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/shanbufun/gridea-theme-song" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>
