@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yancechen.github.io</id>
     <title>陈有余</title>
-    <updated>2020-09-16T12:33:23.326Z</updated>
+    <updated>2020-09-18T07:01:29.850Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yancechen.github.io"/>
     <link rel="self" href="https://yancechen.github.io/atom.xml"/>
@@ -188,14 +188,14 @@
 <li>Lifecycle.Event.ON_CREATE 只会被调用一次，而 Lifecycle.Event.ON_DESTROY 永远不会被调用。</li>
 <li>Lifecycle.Event.ON_PAUSE 和 Lifecycle.Event.ON_STOP 的调用会有一定的延后，因为系统需要为“屏幕旋转，由于配置发生变化而导致的 Activity 重新创建” 的情况预留一些时间。</li>
 </ol>
-<h1 id="三-lifecycle-的另外两种写法">三、Lifecycle 的另外两种写法</h1>
-<p>Lifecycle 有三种实现方法：</p>
+<h1 id="三-lifecycle-的另外两种写法">三、LifeCycle 的另外两种写法</h1>
+<p>LifeCycle 有三种实现方法：</p>
 <ol>
-<li>LifecycleObserver 配合注解</li>
-<li>FullLifecyclerObserver 拥有宿主所有生命周期事件</li>
-<li>LifecycleEventObserver宿主生命周期事件封装成 Lifecycle.Event</li>
+<li>LifecycleObserver 配合 <code>@OnLifecycleEvent</code> 注解</li>
+<li>DefaultLifecycleObserver 拥有宿主所有生命周期事件</li>
+<li>LifecycleEventObserver 将宿主生命周期事件封装成 Lifecycle.Event</li>
 </ol>
-<p>在上一节使用介绍中，我们用的是第一种方式：LifecycleObserver 配合注解。</p>
+<p>在上一节使用介绍中，我们用的是第一种方式：LifecycleObserver 配合 <code>@OnLifecycleEvent</code> 注解。</p>
 <p>这种方式使用比较简单，但是注意最好添加 lifecycle-compiler 这个注解处理器，否者在运行时会使用反射的形式回调到对应的方法上：</p>
 <pre><code class="language-groovy">annotationProcessor &quot;androidx.lifecycle:lifecycle-compiler:2.2.0&quot;
 </code></pre>
@@ -203,24 +203,50 @@
 <pre><code class="language-java">method marked with OnLifecycleEvent annotation can not be private
 </code></pre>
 <p>下面介绍一下另外两种实现方式：</p>
-<h2 id="一fulllifecyclerobserver-拥有宿主所有生命周期事件">（一）FullLifecyclerObserver 拥有宿主所有生命周期事件</h2>
-<pre><code class="language-java">//该接口中定义好了生命周期方法，我们只需要实现 FullLifecycleObserver 接口，重写对应的
-//生命周期方法即可。不过目前 FullLifecycleObserver 这个接口未开放给开发者使用。
-interface FullLifecycleObserver extends LifecycleObserver {
-
-    void onCreate(LifecycleOwner owner);
-
-    void onStart(LifecycleOwner owner);
-
-    void onResume(LifecycleOwner owner);
-
-    void onPause(LifecycleOwner owner);
-
-    void onStop(LifecycleOwner owner);
-
-    void onDestroy(LifecycleOwner owner);
+<h2 id="一defaultlifecycleobserver-拥有宿主所有生命周期事件">（一）DefaultLifecycleObserver 拥有宿主所有生命周期事件</h2>
+<p>使用 DefaultLifecycleObserver 需要用到 <code>Java8</code>，我们首先添加依赖：</p>
+<pre><code>implementation &quot;androidx.lifecycle:lifecycle-common-java8:2.2.0&quot;
+</code></pre>
+<p>然后在模块级别的 build.gradle 中添加：</p>
+<pre><code class="language-groovy">android {
+  ...
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 </code></pre>
+<p>使用 lifecycle-common-java8 依赖后，就可以将 lifecycle-compiler 依赖去掉。</p>
+<p>DefaultLifecycleObserver 接口中有 6 个生命周期方法：</p>
+<pre><code class="language-java">public interface DefaultLifecycleObserver extends FullLifecycleObserver {
+
+    @Override
+    default void onCreate(@NonNull LifecycleOwner owner) {
+    }
+
+    @Override
+    default void onStart(@NonNull LifecycleOwner owner) {
+    }
+
+    @Override
+    default void onResume(@NonNull LifecycleOwner owner) {
+    }
+
+    @Override
+    default void onPause(@NonNull LifecycleOwner owner) {
+    }
+
+    @Override
+    default void onStop(@NonNull LifecycleOwner owner) {
+    }
+
+    @Override
+    default void onDestroy(@NonNull LifecycleOwner owner) {
+    }
+}
+</code></pre>
+<p>该接口继承自 FullLifecycleObserver ，由于权限问题，我们不能直接使用 FullLifecycleObserver 来拥有宿主的所有生命周期事件。</p>
+<p>所以，我们需要通过实现 DefaultLifecycleObserver 接口，然后重写自己业务需要监听的生命周期方法。</p>
 <h2 id="二lifecycleeventobserver-宿主生命周期事件封装成-lifecycleevent">（二）LifecycleEventObserver 宿主生命周期事件封装成 Lifecycle.Event</h2>
 <pre><code class="language-java">//通过实现 LifecycleEventObserver 接口，重写 onStateChanged 方法，在该方法内部
 //通过判断 Lifecycle.Event 来实现具体的业务逻辑
@@ -245,6 +271,13 @@ public class MyVideoPlayObserver implements LifecycleEventObserver {
     }
 }
 </code></pre>
+<p>对于这三种实现方式如何选择呢？</p>
+<p><strong>建议使用 DefaultLifecycleObserver 和 LifecycleEventObserver 的方式。</strong></p>
+<ol>
+<li>Java8 使用 DefaultLifecycleObserver 来实现 Lifecycle，Java7 使用注解的方式。如果一旦 Java8 成为 Android 的主流后，注解的方式会被弃用。</li>
+<li>如果一个类同时实现了 DefaultLifecycleObserver 接口和 LifecycleEventObserver 接口，那么 DefaultLifecycleObserver 中的方法会先触发，然后才执行 LifecycleEventObserver 的  onStateChanged 方法。</li>
+<li>如果一个类实现了 DefaultLifecycleObserver 接口，同时使用了 <code>@OnLifecycleEvent</code> 注解，那么注解的方式会被自动忽略掉。</li>
+</ol>
 <h1 id="四-总结">四、总结</h1>
 <p><strong>LifeCycle 组件存在的主要意义是帮助我们解耦，让自己定义的组件也能够感受到生命周期的变化。</strong></p>
 <h1 id="五-补充">五、补充</h1>
