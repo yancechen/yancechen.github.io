@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>Jetpack 之 LifeCycle 组件原理解析 | 陈有余</title>
+        <link rel="stylesheet" href="https://yancechen.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://yancechen.github.io">陈有余</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">万物之中，希望至美</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">Jetpack 之 LifeCycle 组件原理解析</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2020-09-28 15:40:17">2020-09-28 / 14 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><p>对于 LifeCycle 组件还不了解的同学，可以先阅读这篇文章：</p>
+<p><a href="https://yancechen.github.io/post/jetpack-zhi-lifecycle-zu-jian-shi-yong-xiang-jie/">Jetpack 之 LifeCycle 组件使用详解</a></p>
+<h1 id="学习问题">学习问题</h1>
+<ol>
+<li>
+<p>LifeCycle 是如何监听到 Activity/Fragment 生命周期变化的？</p>
+</li>
+<li>
+<p>LifeCycle 如何将生命周期变化的事件分发给观察者的？</p>
+</li>
+</ol>
+<h1 id="本文目录">本文目录</h1>
+<figure data-type="image" tabindex="1"><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a41387880625432da98b49f670c42977~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h1 id="一-四个重要的类">一、四个重要的类</h1>
+<h2 id="一lifecycle">（一）Lifecycle</h2>
+<p>Lifecycle 是一个抽象类。它内部定义了两个枚举：<code>Event</code> 需要分发的事件的类型，<code>State</code> 宿主的状态。</p>
+<h3 id="1event">1.Event</h3>
+<pre><code class="language-java">public enum Event {
+    //对应于宿主（实现了LifecycleOwner的类）的 onCreate 方法
+    ON_CREATE,
+        
+    //对应于宿主（实现了LifecycleOwner的类）的 onStart 方法
+    ON_START,
+        
+    //对应于宿主（实现了LifecycleOwner的类）的 onResume 方法
+    ON_RESUME,
+        
+    //对应于宿主（实现了LifecycleOwner的类）的 onPause 方法
+    ON_PAUSE,
+        
+    //对应于宿主（实现了LifecycleOwner的类）的 onStop 方法
+    ON_STOP,
+        
+    //对应于宿主（实现了LifecycleOwner的类）的 onDestroy 方法
+    ON_DESTROY,
+        
+    //可以匹配宿主的所有生命周期事件
+    ON_ANY
+}
+</code></pre>
+<p>各个生命周期事件分发的时机：</p>
+<p>ON_CREATE、ON_START 和 ON_RESUME：这三个生命周期事件是在宿主相应的生命周期方法 <strong>执行完成之后</strong> 被分发。</p>
+<p>ON_PAUSE、ON_STOP 和 ON_DESTROY：这三个生命周期事件是在宿主相应的生命周期方法 <strong>被调用之前</strong> 分发。</p>
+<h3 id="2state">2.State</h3>
+<pre><code class="language-java">public enum State {
+
+    //已销毁状态。以 Activity 为例，在回调 Activity 的 onDestroy 方法之前，宿主会达到此状态。
+    DESTROYED,
+
+    //已初始化状态。在回调 onCreate 方法之前的一种状态。
+    INITIALIZED,
+
+    //已创建状态。两种情况下回处于这种状态：
+    //1.宿主的 onCreate 方法执行之后
+    //2.宿主的 onStop 方法调用之前
+    CREATED,
+
+    //可见状态。两种情况下回处于这种状态：
+    //1.宿主的 onStart 方法执行之后
+    //2.宿主的 onPause 方法调用之前
+    STARTED,
+
+    //聚焦（可交互状态）。宿主执行了 onResume 方法后处于该状态。
+    RESUMED;
+
+    public boolean isAtLeast(@NonNull State state) {
+        return compareTo(state) &gt;= 0;
+    }
+}
+</code></pre>
+<h3 id="3event-和-state-的对应关系">3.Event 和 State 的对应关系</h3>
+<figure data-type="image" tabindex="2"><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e3197f4aeafd454b8468ab2a19bf1ddf~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h2 id="二lifecycleregistry">（二）LifecycleRegistry</h2>
+<p>它是 Lifecycle 的唯一实现类。主要用来注册观察者（LifecycleObserver），以及分发宿主状态给它们（可以处理多个观察者）。</p>
+<h2 id="三lifecycleowner">（三）LifecycleOwner</h2>
+<p>用来声明它是一个能够提供生命周期事件的宿主，Activity/Fragment 都实现了该接口。内部只有一个 getLifecycle 方法。</p>
+<pre><code class="language-java">public interface LifecycleOwner {
+    @NonNull
+    Lifecycle getLifecycle();
+}
+</code></pre>
+<h2 id="四lifecycleobserver">（四）LifecycleObserver</h2>
+<p>用来定义观察者。</p>
+<h1 id="二-四个类之间的关系">二、四个类之间的关系</h1>
+<figure data-type="image" tabindex="3"><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3a5a6363bad64e6a8e647018e2fc438d~tplv-k3u1fbpfcp-zoom-1.image" alt="LifeCycle 类关系图" loading="lazy"></figure>
+<p>说明：</p>
+<ol>
+<li>Activity/Fragment 都默认实现了 LifecycleOwner 接口；</li>
+<li>LifecycleRegistry 是 Lifecycle 唯一的实现类；</li>
+<li>实现观察者（Observer）有三种方式：
+<ul>
+<li>LifecycleObserver 配合 @OnLifecycleEvent 注解</li>
+<li>DefaultLifecycleObserver 拥有宿主所有生命周期事件</li>
+<li>LifecycleEventObserver 将宿主生命周期事件封装成 Lifecycle.Event</li>
+</ul>
+</li>
+<li>在 Activity/Fragment 中通过 <code>getLifecycle()</code> 方法获取到一个 LifecycleRegistry 对象；</li>
+<li>通过调用 LifecycleRegistry 对象的 <code>addObserver()</code> 添加一个观察者（该观察者通过三种方式实现都可以）。</li>
+</ol>
+<h1 id="三-fragment-如何实现-lifycycle">三、Fragment 如何实现 LifyCycle</h1>
+<p>在 Fragment 各个生命周期方法内部会利用 LifecycleRegistry 进行相应的事件分发。</p>
+<pre><code class="language-java">public class Fragment implements LifecycleOwner {
+
+    LifecycleRegistry mLifecycleRegistry;
+
+    void performCreate(Bundle savedInstanceState) {
+        onCreate(savedInstanceState);
+        //ON_CREATE 事件在执行了 onCreate 方法之后分发 
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+    }
+
+    void performStart() {
+        onStart();
+        //ON_START 事件在执行了 onStart 方法之后分发
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
+    }
+
+    void performResume() {
+        onResume();
+        //ON_RESUME 事件在执行了 onResume 方法之后分发
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    }
+
+    void performPause() {
+        //ON_PAUSE 事件在执行 onPause 方法执行之前分发
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+        onPause();
+    }
+
+    void performStop() {
+        //ON_STOP 事件在执行 onStop 方法执行之前分发
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+        onStop();
+    }
+
+    void performDestroy() {
+        //ON_DESTROY 事件在执行 onDestroy 方法执行之前分发
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        onDestroy();
+    }
+}
+</code></pre>
+<h1 id="四-activity-如何实现-lifycycle">四、Activity 如何实现 LifyCycle</h1>
+<p>Activity 实现 Lifecycle 需要借助于 ReportFragment 往 Activity 上添加一个 fragment。ReportFragment 没有任何的页面，它只负责在生命周期变化时利用 LifecycleRegistry 进行相应事件的分发。</p>
+<p>之所以需要借助 ReportFragment ，目的是为了兼顾不是继承自 AppCompactActivity 的场景， 同时也支持我们自定义 LifecycleOwner 的场景。</p>
+<h2 id="一componentactivity-的源码分析">（一）ComponentActivity 的源码分析</h2>
+<p>以下是 ComponentActivity 的源码，在 onCreate 方法中往 Activity 里面添加了一个 fragment。</p>
+<pre><code class="language-java">public class ComponentActivity extends Activity implements LifecycleOwner {
+  
+    private LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
+
+    @SuppressLint(&quot;RestrictedApi&quot;)
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //添加一个 fragment
+        ReportFragment.injectIfNeededIn(this);
+    }
+}
+</code></pre>
+<p>补充一下 Activity 的继承关系：</p>
+<figure data-type="image" tabindex="4"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d8a4d3ed71c412e9e595ed256fbb96a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h2 id="二reportfragment-的源码分析">（二）ReportFragment 的源码分析</h2>
+<p>下面来看看 ReportFragment 的源码。在 ReportFragment 中最主要的一个方法是 injectIfNeededIn。</p>
+<pre><code class="language-java">public class ReportFragment extends Fragment {
+    
+    ...
+
+    public static void injectIfNeededIn(Activity activity) {
+        //1.如果 API &gt;= 29 ,注册 ActivityLifecycleCallbacks
+        if (Build.VERSION.SDK_INT &gt;= 29) {
+            activity.registerActivityLifecycleCallbacks(
+                    new LifecycleCallbacks());
+        }
+
+        //2.添加一个 ReportFragment 到 Activity 中
+        android.app.FragmentManager manager = activity.getFragmentManager();
+        if (manager.findFragmentByTag(REPORT_FRAGMENT_TAG) == null) {
+            manager.beginTransaction().add(new ReportFragment(), REPORT_FRAGMENT_TAG).commit();
+            manager.executePendingTransactions();
+        }
+    }
+
+    ...
+</code></pre>
+<p>injectIfNeededIn 方法会做两件事情：</p>
+<h3 id="1判断当前的-api-level根据-api-level-选择监听-activity-生命周期的时机和方式">1.判断当前的 API Level，根据 API Level 选择监听 Activity 生命周期的时机和方式</h3>
+<h4 id="1api-level-29">（1）API Level &gt;= 29</h4>
+<p>如果大于等于 29 的话，会注册一个 ActivityLifecycleCallbacks，</p>
+<pre><code class="language-java">if (Build.VERSION.SDK_INT &gt;= 29) {
+    activity.registerActivityLifecycleCallbacks(new LifecycleCallbacks());
+}
+</code></pre>
+<p>ActivityLifecycleCallbacks 是 Application 的一个内部接口。</p>
+<pre><code class="language-java">public interface ActivityLifecycleCallbacks {
+        void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState);
+        void onActivityStarted(@NonNull Activity activity);
+        void onActivityResumed(@NonNull Activity activity);
+        void onActivityPaused(@NonNull Activity activity);
+        void onActivityStopped(@NonNull Activity activity);
+        void onActivityDestroyed(@NonNull Activity activity);
+    }
+</code></pre>
+<p>以 Activity 的 onResume() 生命周期为例，如果我们注册了 ActivityLifecycleCallbacks，Android 系统会先回调 ActivityLifecycleCallbacks 的 onActivityResumed 方法，然后才执行 Android 本身的 onResume() 方法。</p>
+<p>利用这个特点，我们可以注册一个自定义的 ActivityLifecycleCallbacks，在自定义的 ActivityLifecycleCallbacks 添加分发生命周期事件的逻辑来通知观察者：</p>
+<pre><code class="language-java">public class ReportFragment extends Fragment {
+
+    public static void injectIfNeededIn(Activity activity) {
+        if (Build.VERSION.SDK_INT &gt;= 29) {
+            activity.registerActivityLifecycleCallbacks(
+                    new LifecycleCallbacks());
+        }
+        
+        android.app.FragmentManager manager = activity.getFragmentManager();
+        if (manager.findFragmentByTag(REPORT_FRAGMENT_TAG) == null) {
+            manager.beginTransaction().add(new ReportFragment(), REPORT_FRAGMENT_TAG).commit();
+            manager.executePendingTransactions();
+        }
+    }
+
+    @SuppressWarnings(&quot;deprecation&quot;)
+    static void dispatch(@NonNull Activity activity, @NonNull Lifecycle.Event event) {
+        ...
+
+        if (activity instanceof LifecycleOwner) {
+            Lifecycle lifecycle = ((LifecycleOwner) activity).getLifecycle();
+            if (lifecycle instanceof LifecycleRegistry) {
+                //最终还是通过 LifecycleRegistry 来处理事件的分发
+                ((LifecycleRegistry) lifecycle).handleLifecycleEvent(event);
+            }
+        }
+    }
+
+    //自定义 ActivityLifecycleCallbacks 来处理生命周期事件的分发，通知观察者
+    static class LifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+        
+        ...
+
+        @Override
+        public void onActivityPostCreated(@NonNull Activity activity,
+                @Nullable Bundle savedInstanceState) {
+            //分发 ON_CREATE 事件
+            dispatch(activity, Lifecycle.Event.ON_CREATE);
+        }
+
+        @Override
+        public void onActivityPostStarted(@NonNull Activity activity) {
+            //分发 ON_START 事件
+            dispatch(activity, Lifecycle.Event.ON_START);
+        }
+
+        @Override
+        public void onActivityPostResumed(@NonNull Activity activity) {
+            //分发 ON_RESUME 事件
+            dispatch(activity, Lifecycle.Event.ON_RESUME);
+        }
+
+        @Override
+        public void onActivityPrePaused(@NonNull Activity activity) {
+            //分发 ON_PAUSE 事件
+            dispatch(activity, Lifecycle.Event.ON_PAUSE);
+        }
+
+        @Override
+        public void onActivityPreStopped(@NonNull Activity activity) {
+            //分发 ON_STOP 事件
+            dispatch(activity, Lifecycle.Event.ON_STOP);
+        }
+
+        @Override
+        public void onActivityPreDestroyed(@NonNull Activity activity) {
+            //分发 ON_DESTROY 事件
+            dispatch(activity, Lifecycle.Event.ON_DESTROY);
+        }
+
+        ...
+
+    }
+}
+</code></pre>
+<h4 id="2api-level-29">（2）API Level &lt; 29</h4>
+<p>对于 API 小于 29 的情况，它的实现方式和 Fragment 的实现是一样的，在各个生命周期方法内利用 LifecycleRegistry 分发相应的 Lifecycle.Event 事件给每个观察者：</p>
+<pre><code class="language-java">public class ReportFragment extends Fragment {
+
+    public static void injectIfNeededIn(Activity activity) {
+        if (Build.VERSION.SDK_INT &gt;= 29) {
+            activity.registerActivityLifecycleCallbacks(
+                    new LifecycleCallbacks());
+        }
+        
+        android.app.FragmentManager manager = activity.getFragmentManager();
+        if (manager.findFragmentByTag(REPORT_FRAGMENT_TAG) == null) {
+            manager.beginTransaction().add(new ReportFragment(), REPORT_FRAGMENT_TAG).commit();
+            manager.executePendingTransactions();
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        dispatch(Lifecycle.Event.ON_CREATE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dispatch(Lifecycle.Event.ON_START);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dispatch(Lifecycle.Event.ON_RESUME);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dispatch(Lifecycle.Event.ON_PAUSE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dispatch(Lifecycle.Event.ON_STOP);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dispatch(Lifecycle.Event.ON_DESTROY);
+    }
+
+    private void dispatch(@NonNull Lifecycle.Event event) {
+        //在此处判断一下 API ，避免重复分发事件
+        if (Build.VERSION.SDK_INT &lt; 29) {
+            dispatch(getActivity(), event);
+        }
+    }
+}
+</code></pre>
+<h3 id="2在-injectifneededin-中会创建一个-reportfragment-添加到-activity-中">2.在 injectIfNeededIn 中会创建一个 ReportFragment 添加到 Activity 中</h3>
+<pre><code class="language-java">public class ReportFragment extends Fragment {
+    
+    public static void injectIfNeededIn(Activity activity) {
+
+        ...
+
+        //往 Activity 中添加一个 ReportFragment
+        android.app.FragmentManager manager = activity.getFragmentManager();
+        if (manager.findFragmentByTag(REPORT_FRAGMENT_TAG) == null) {
+            manager.beginTransaction().add(new ReportFragment(), REPORT_FRAGMENT_TAG).commit();
+            manager.executePendingTransactions();
+        }
+    }
+}
+</code></pre>
+<h1 id="五-lifecycleregistry-源码分析">五、LifecycleRegistry 源码分析</h1>
+<p>从前文的分析中，我们知道了 Activity/Fragment 是如何去实现 LifeCycle 的，对于生命周期事件的分发，它们最终都是交给了 LifecycleRegistry 去处理，因此，我们有比较去了解一下 LifecycleRegistry 内部的工作机制。</p>
+<h2 id="一addobserver-源码分析">（一）addObserver() 源码分析</h2>
+<p>LifeCycle 是通过观察者模式去实现的，添加一个观察者的方式是调用 addObserver() 方法：</p>
+<pre><code class="language-java">getLifecycle().addObserver(observer);
+</code></pre>
+<p>先来看一下完整的 addObserver() 方法：</p>
+<pre><code class="language-java">public void addObserver(@NonNull LifecycleObserver observer) {
+        State initialState = mState == DESTROYED ? DESTROYED : INITIALIZED;
+        ObserverWithState statefulObserver = new ObserverWithState(observer, initialState);
+        ObserverWithState previous = mObserverMap.putIfAbsent(observer, statefulObserver);
+
+        if (previous != null) {
+            return;
+        }
+        LifecycleOwner lifecycleOwner = mLifecycleOwner.get();
+        if (lifecycleOwner == null) {
+            // it is null we should be destroyed. Fallback quickly
+            return;
+        }
+
+        boolean isReentrance = mAddingObserverCounter != 0 || mHandlingEvent;
+        State targetState = calculateTargetState(observer);
+        mAddingObserverCounter++;
+        while ((statefulObserver.mState.compareTo(targetState) &lt; 0
+                &amp;&amp; mObserverMap.contains(observer))) {
+            pushParentState(statefulObserver.mState);
+            statefulObserver.dispatchEvent(lifecycleOwner, upEvent(statefulObserver.mState));
+            popParentState();
+            // mState / subling may have been changed recalculate
+            targetState = calculateTargetState(observer);
+        }
+
+        if (!isReentrance) {
+            // we do sync only on the top level.
+            sync();
+        }
+        mAddingObserverCounter--;
+    }
+</code></pre>
+<p>下面，我们逐行代码来分析：</p>
+<h3 id="1首先确定新添加的-observer-的初始化状态">1.首先确定新添加的 Observer 的初始化状态</h3>
+<pre><code class="language-java">State initialState = mState == DESTROYED ? DESTROYED : INITIALIZED;
+</code></pre>
+<p>只要当前宿主的状态不是 <code>DESTROYED</code>，那么它的初始状态都是 <code>INITIALIZED</code>。</p>
+<h3 id="2将-observer-包装成-observerwithstate">2.将 Observer 包装成 ObserverWithState</h3>
+<pre><code class="language-java">ObserverWithState statefulObserver = new ObserverWithState(observer, initialState);
+</code></pre>
+<p>ObserverWithState 表示带有状态的 Observer，这个类后文会详细分析。</p>
+<h3 id="3将-observer-添加到集合中">3.将 Observer 添加到集合中</h3>
+<pre><code class="language-java">ObserverWithState previous = mObserverMap.putIfAbsent(observer, statefulObserver);
+
+if (previous != null) {
+    return;
+}
+</code></pre>
+<p>通过 putIfAbsent() 方法将 ObserverWithState 添加到集合中，如果之前已经添加过了，putIfAbsent() 方法会直接返回之前添加过的 ObserverWithState，此时，程序会直接 return。</p>
+<h3 id="4利用一个-while-循环将观察者和宿主的状态进行对齐">4.利用一个 while 循环将观察者和宿主的状态进行对齐</h3>
+<pre><code class="language-java">//首先计算出观察者应该达到的状态
+State targetState = calculateTargetState(observer);
+//通过 compareTo 方法，将观察者的状态和宿主当前状态做比较，如果小于0，说明两者状态还没有对齐
+while ((statefulObserver.mState.compareTo(targetState) &lt; 0
+        &amp;&amp; mObserverMap.contains(observer))) {
+    pushParentState(statefulObserver.mState);
+    //执行一次事件分发
+    statefulObserver.dispatchEvent(lifecycleOwner, upEvent(statefulObserver.mState));
+    popParentState();
+    //计算观察者下一个应该到达的状态，在下次循环中观察者状态还会与之对比，直到状态对齐，退出循环
+    targetState = calculateTargetState(observer);
+}
+</code></pre>
+<p>根据 while 循环的逻辑，我们可以得出一个结论：</p>
+<p>在 Activity/Fragment 的任意生命周期方法内注册观察者都能接收到完整的生命周期事件。</p>
+<p>比如，我们在 onResume() 方法内注册观察者：</p>
+<ul>
+<li>while 第一次循环：分发 on_Create 事件，观察者状态 INITIALIZED -&gt; CREATED</li>
+<li>while 第二次循环：分发 on_Start 事件，观察者状态 CREATED -&gt; STARTED</li>
+<li>while 第三次循环：分发 on_Resume 事件，观察者状态 STARTED -&gt; RESUMED</li>
+</ul>
+<p>不过，建议最好是在 onCreate 方法中进行注册。</p>
+<p>关于使用 compareTo 比较两个枚举值，请参考文章：</p>
+<p><a href="https://www.w3cschool.cn/java/java-enum-compare.html">Java 枚举比较</a></p>
+<h2 id="二handlelifecycleevent-源码分析">（二）handleLifecycleEvent() 源码分析</h2>
+<p>handleLifecycleEvent() 方法主要是负责宿主生命周期变化后相应的事件分发。</p>
+<pre><code class="language-java">public void handleLifecycleEvent(@NonNull Lifecycle.Event event) {
+        State next = getStateAfter(event);
+        moveToState(next);
+    }
+</code></pre>
+<h3 id="1首先根据需要分发的事件获取宿主当前处于什么状态">1.首先根据需要分发的事件，获取宿主当前处于什么状态</h3>
+<p>假设分发的是 <code>ON_START</code> 事件，那么根据 getStateAfter() 方法我们可以知道，宿主当前是处于 <code>STARTED</code> 状态。</p>
+<pre><code>static State getStateAfter(Event event) {
+        switch (event) {
+            case ON_CREATE:
+            case ON_STOP:
+                return CREATED;
+            case ON_START:
+            case ON_PAUSE:
+                return STARTED;
+            case ON_RESUME:
+                return RESUMED;
+            case ON_DESTROY:
+                return DESTROYED;
+            case ON_ANY:
+                break;
+        }
+</code></pre>
+<h3 id="2根据第一步获取的宿主状态设置当前的状态并通知观察者">2.根据第一步获取的宿主状态设置当前的状态并通知观察者</h3>
+<pre><code class="language-java">private void moveToState(State next) {
+        if (mState == next) {
+            return;
+        }
+        //设置当前状态
+        mState = next;
+
+        ...
+
+        //通知观察者
+        sync();
+    }
+</code></pre>
+<p>下面来看一下 sync 方法：</p>
+<pre><code class="language-java">private void sync() {
+        
+    while (!isSynced()) {
+    
+        //如果宿主当前的状态 小于 mObserverMap 集合中最先添加的那个观察者的状态
+        //则说明宿主可能发生了状态回退，比如当前是 RESUMED 状态，执行了onPause 则回退到STARTED 状态
+        //此时调用 backwardPass 给集合中的每个一观察者分发一个 on_pause 事件，并同步它的状态。
+        if (mState.compareTo(mObserverMap.eldest().getValue().mState) &lt; 0) {
+            backwardPass(lifecycleOwner);
+        }
+
+        //如果宿主当前状态 大于 mObserverMap 集合中最先添加的那个观察者的状态
+        //则说明宿主可能发生了状态前进，比如当前是 STARTED 状态，执行了onResume 则前进到RESUMED 状态
+        //此时调用 forwardPass 给集合中的每个一观察者分发一个 on_resume 事件，并同步它的状态。
+        Entry&lt;LifecycleObserver, ObserverWithState&gt; newest = mObserverMap.newest();
+        if (!mNewEventOccurred &amp;&amp; newest != null
+                &amp;&amp; mState.compareTo(newest.getValue().mState) &gt; 0) {
+            forwardPass(lifecycleOwner);
+        }
+    }
+    mNewEventOccurred = false;
+}
+</code></pre>
+<h2 id="三observerwithstate-源码分析">（三）ObserverWithState 源码分析</h2>
+<p>ObserverWithState 是 LifecycleRegistry 中持有观察者及其状态的内部类。</p>
+<pre><code class="language-java">static class ObserverWithState {
+    State mState;
+    LifecycleEventObserver mLifecycleObserver;
+
+    //把传入的 LifecycleObserver 适配成 LifecycleEventObserver，目的是为了统一事件的分发形式。
+    //在之前的文章里介绍过实现观察者有三种形式，每一种接收的事件类型都不一样，如果在分发的时候不统一事件分发的形式，将会变得很麻烦
+    ObserverWithState(LifecycleObserver observer, State initialState) {
+        mLifecycleObserver = Lifecycling.lifecycleEventObserver(observer);
+        mState = initialState;
+    }
+
+    void dispatchEvent(LifecycleOwner owner, Event event) {
+        State newState = getStateAfter(event);
+        mState = min(mState, newState);
+        //执行事件分发
+        mLifecycleObserver.onStateChanged(owner, event);
+        mState = newState;
+    }
+}
+</code></pre>
+<h1 id="六-参考资料">六、参考资料</h1>
+<p><a href="https://developer.android.google.cn/jetpack">Google Jetpack 官方文档</a></p>
+<p><a href="https://www.imooc.com/u/index/read">慕课专栏：跟架构师学Jetpack</a></p>
+<p>《Android Jetpack 应用指南》叶坤</p>
+</div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> </div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://yancechen.github.io/post/jetpack-zhi-lifecycle-zu-jian-shi-yong-xiang-jie/">Jetpack 之 LifeCycle 组件使用详解</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://yancechen.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	<span id="busuanzi_container_site_uv" style='display:none'>总访客人数量&nbsp;<span id="busuanzi_value_site_uv"></span>&nbsp;次</span>
+	<span id="busuanzi_container_site_pv" style='display:none'>本站总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+ <br/> Theme <a href="https://github.com/shanbufun/gridea-theme-song" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>
