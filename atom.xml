@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yancechen.github.io</id>
     <title>陈有余</title>
-    <updated>2020-09-30T04:55:29.185Z</updated>
+    <updated>2020-11-24T07:22:13.512Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yancechen.github.io"/>
     <link rel="self" href="https://yancechen.github.io/atom.xml"/>
@@ -10,6 +10,761 @@
     <logo>https://yancechen.github.io/images/avatar.png</logo>
     <icon>https://yancechen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 陈有余</rights>
+    <entry>
+        <title type="html"><![CDATA[使用 Jetpack 组件构建 MVVM 应用程序]]></title>
+        <id>https://yancechen.github.io/post/shi-yong-jetpack-zu-jian-gou-jian-mvvm-ying-yong-cheng-xu/</id>
+        <link href="https://yancechen.github.io/post/shi-yong-jetpack-zu-jian-gou-jian-mvvm-ying-yong-cheng-xu/">
+        </link>
+        <updated>2020-11-24T07:21:39.000Z</updated>
+        <content type="html"><![CDATA[<p>本文会为大家演示通过 Jetpack 组件搭建一个 MVVM 架构的应用程序。需求很简单，就是请求一个接口，然后获取几个字段的数据显示到页面上。</p>
+<p>接口我们使用 GitHub 开放的 API：</p>
+<pre><code>https://api.github.com/users/{login}
+</code></pre>
+<p>login 是 GitHub 的用户名</p>
+<p>为了用最简单的案例为大家说清楚什么是 MVVM 以及什么是数据模型驱动视图更新，我们只使用 Jetpack 的其中几个组件，分别是</p>
+<ul>
+<li>LiveData</li>
+<li>Room</li>
+<li>ViewModel</li>
+<li>DataBinding</li>
+</ul>
+<p>而对于 LifeCycle、Navigation、Paging 等组件可以根据具体业务场景需要的时候再添加。</p>
+<h1 id="1最终效果图">1.最终效果图</h1>
+<figure data-type="image" tabindex="1"><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f5ead42e125c40f2a5a45240f79cf979~tplv-k3u1fbpfcp-watermark.image" alt="最终效果图" loading="lazy"></figure>
+<p>需要展示的元素包括：</p>
+<ol>
+<li>用户头像（avatar）</li>
+<li>用户真实姓名（name）</li>
+<li>个人签名（bio）</li>
+<li>所在地区（location）</li>
+<li>关注者（followers）</li>
+<li>正在关注（following）</li>
+<li>github 地址（html_url）</li>
+<li>个人博客地址（blog）</li>
+</ol>
+<p>项目的需求比较简单，但是也涉及一些细微的知识点，我们在后面 coding 演示时会详细说明。</p>
+<h1 id="2api-说明">2.API 说明</h1>
+<p>获取 GitHub 个人信息</p>
+<h2 id="21-base_url">2.1 base_url</h2>
+<pre><code>https://api.github.com/
+</code></pre>
+<h2 id="22-path">2.2 path</h2>
+<pre><code>users/{login}
+</code></pre>
+<p>login 是 GitHub 的用户名。</p>
+<h2 id="23-json-数据">2.3 json 数据</h2>
+<pre><code class="language-json">{
+	&quot;login&quot;: &quot;yancechen&quot;,
+	&quot;id&quot;: 19751111,
+	&quot;node_id&quot;: &quot;MDQ6VXN******NzU3NzI4&quot;,
+	&quot;avatar_url&quot;: &quot;******&quot;,
+	&quot;gravatar_id&quot;: &quot;&quot;,
+	&quot;url&quot;: &quot;******&quot;,,
+	&quot;html_url&quot;: &quot;******&quot;,
+	&quot;followers_url&quot;: &quot;******&quot;,
+	&quot;following_url&quot;: &quot;******&quot;,
+	&quot;gists_url&quot;: &quot;******&quot;,
+	&quot;starred_url&quot;: &quot;******&quot;,
+	&quot;subscriptions_url&quot;: &quot;******&quot;,
+	&quot;organizations_url&quot;: &quot;******&quot;,
+	&quot;repos_url&quot;: &quot;******&quot;,
+	&quot;events_url&quot;: &quot;******&quot;,
+	&quot;received_events_url&quot;: &quot;******&quot;,
+	&quot;type&quot;: &quot;User&quot;,
+	&quot;site_admin&quot;: false,
+	&quot;name&quot;: &quot;陈有余&quot;,
+	&quot;company&quot;: null,
+	&quot;blog&quot;: &quot;******&quot;,
+	&quot;location&quot;: &quot;北京&quot;,
+	&quot;email&quot;: null,
+	&quot;hireable&quot;: null,
+	&quot;bio&quot;: &quot;万物之中，希望至美&quot;,
+	&quot;twitter_username&quot;: null,
+	&quot;public_repos&quot;: 35,
+	&quot;public_gists&quot;: 0,
+	&quot;followers&quot;: 7,
+	&quot;following&quot;: 22,
+	&quot;created_at&quot;: &quot;2016-06-05T07:06:41Z&quot;,
+	&quot;updated_at&quot;: &quot;2020-10-30T06:45:52Z&quot;
+}
+</code></pre>
+<h1 id="3项目工程结构">3.项目工程结构</h1>
+<figure data-type="image" tabindex="2"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96828519213f43438a577006d5ec2290~tplv-k3u1fbpfcp-watermark.image" alt="工程结构图" loading="lazy"></figure>
+<p>结合上面的工程结构图，我们可以大致将项目分为一下几个层级：</p>
+<ul>
+<li>
+<p>Model：我们采用 Room 数据库来存储用户个人信息。</p>
+</li>
+<li>
+<p>API（也可以叫 http 层或者 net 层）：通过 Retrofit 请求 GitHub API。</p>
+</li>
+<li>
+<p>Application：在其中实例化 Room 和 Retrofit 对象，以便统一管理和全局调用。</p>
+</li>
+<li>
+<p>Repository：用来处理 API 网络请求获取网络数据、 Room 数据库数据的处理以及处理网络数据和 Room 数据之间的业务关系。注意，项目里面不一定非得引入 Room 数据库，如果不使用 Room 的话，Repository 层中只负责处理网络数据即可。</p>
+</li>
+<li>
+<p>ViewModel：从 Repository 层中获取数据，ViewModel 不需要关心数据的来源是 Room 还是 API 接口。</p>
+</li>
+<li>
+<p>View：也就是我们熟悉的 Activity/Fragment 和布局文件。我们会在 View 层中使用 DataBinding 组件。</p>
+</li>
+</ul>
+<p>下面，我们会结合代码来分别对每一层进行说明。</p>
+<h1 id="4代码演示">4.代码演示</h1>
+<h2 id="41-准备工作">4.1 准备工作</h2>
+<h3 id="411-添加网络权限">4.1.1 添加网络权限</h3>
+<pre><code class="language-XML">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+</code></pre>
+<h3 id="412-添加依赖">4.1.2 添加依赖</h3>
+<p>a.在添加的依赖中除了 Jetpack 相关的组件，我们还需要引入 Retrofit、Glide、下拉刷新组件：</p>
+<pre><code class="language-groovy">//Room
+def room_version = &quot;2.2.5&quot;
+implementation &quot;androidx.room:room-runtime:$room_version&quot;
+annotationProcessor &quot;androidx.room:room-compiler:$room_version&quot;
+
+//ViewModel
+def lifecycle_version = &quot;2.2.0&quot;
+implementation &quot;androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version&quot;
+
+//Retrofit
+implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    
+//图片加载
+implementation 'com.github.bumptech.glide:glide:4.11.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    
+//下拉刷新
+implementation &quot;androidx.swiperefreshlayout:swiperefreshlayout:1.1.0&quot;
+</code></pre>
+<p>b.我们还需要在 app 的 build.gradle 文件中开启 DataBinding：</p>
+<pre><code>android {
+    ...
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+</code></pre>
+<p>c.使用 Java 8</p>
+<pre><code class="language-groovy">compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+</code></pre>
+<p>整体的 build.gradle 文件如下</p>
+<pre><code class="language-groovy">apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion &quot;30.0.0&quot;
+
+    defaultConfig {
+        applicationId &quot;com.yance&quot;
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName &quot;1.0&quot;
+
+        testInstrumentationRunner &quot;androidx.test.runner.AndroidJUnitRunner&quot;
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: &quot;libs&quot;, include: [&quot;*.jar&quot;])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //Room
+    def room_version = &quot;2.2.5&quot;
+    implementation &quot;androidx.room:room-runtime:$room_version&quot;
+    annotationProcessor &quot;androidx.room:room-compiler:$room_version&quot;
+
+    //ViewModel
+    def lifecycle_version = &quot;2.2.0&quot;
+    implementation &quot;androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version&quot;
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    //图片加载
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //下拉刷新
+    implementation &quot;androidx.swiperefreshlayout:swiperefreshlayout:1.1.0&quot;
+}
+</code></pre>
+<h2 id="42-model-层代码">4.2 Model 层代码</h2>
+<h3 id="421-定义数据模型">4.2.1 定义数据模型</h3>
+<p>因为我们是获取个人信息，因此我们命名为 User，在 User 模型中，我们只保留我们需要的字段：</p>
+<pre><code class="language-java">@Entity(tableName = &quot;user&quot;)
+public class User {
+
+    @PrimaryKey
+    @ColumnInfo(name = &quot;id&quot;, typeAffinity = ColumnInfo.INTEGER)
+    public int id;
+
+    @ColumnInfo(name = &quot;name&quot;, typeAffinity = ColumnInfo.TEXT)
+    public String name;
+
+    @ColumnInfo(name = &quot;login&quot;, typeAffinity = ColumnInfo.TEXT)
+    public String login;
+
+    @ColumnInfo(name = &quot;avatar&quot;, typeAffinity = ColumnInfo.TEXT)
+    @SerializedName(&quot;avatar_url&quot;)
+    public String avatar;
+
+    @ColumnInfo(name = &quot;followers&quot;, typeAffinity = ColumnInfo.INTEGER)
+    public int followers;
+
+    @ColumnInfo(name = &quot;following&quot;, typeAffinity = ColumnInfo.INTEGER)
+    public int following;
+
+    @ColumnInfo(name = &quot;blog&quot;, typeAffinity = ColumnInfo.TEXT)
+    public String blog;
+
+    @ColumnInfo(name = &quot;bio&quot;, typeAffinity = ColumnInfo.TEXT)
+    public String bio;
+
+    @ColumnInfo(name = &quot;location&quot;, typeAffinity = ColumnInfo.TEXT)
+    public String location;
+
+    @ColumnInfo(name = &quot;html_url&quot;, typeAffinity = ColumnInfo.TEXT)
+    @SerializedName(&quot;html_url&quot;)
+    public String html_url;
+
+    public User(int id, String name, String avatar, int followers, int following, String blog, String bio, String location, String html_url) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+        this.followers = followers;
+        this.following = following;
+        this.blog = blog;
+        this.bio = bio;
+        this.location = location;
+        this.html_url = html_url;
+    }
+}
+</code></pre>
+<p>使用过数据库的同学应该对代码中的一些关键字不会感到陌生，基本都能见名知意。</p>
+<ul>
+<li>@Entity</li>
+</ul>
+<p>用于将 User 类与 Room 中的数据表对应起来。<code>tableName</code> 属性可以为数据表设置表名，若不设置，则表名与类名相同。</p>
+<ul>
+<li>@PrimaryKey</li>
+</ul>
+<p>用于指定该字段作为表的主键。</p>
+<ul>
+<li>@ColumnInfo</li>
+</ul>
+<p>设置该字段存储在数据库表中的名字，并指定字段的类型。</p>
+<ul>
+<li>@Ignore</li>
+</ul>
+<p>用来告诉 Room 忽略该字段或者方法。</p>
+<p>由于 Room 只能识别和使用一个构造器，如果希望定义多个构造器，可以使用 @Ignore 标签，让 Room 忽略这个构造器。如果使用 @Ignore 标记字段的话，Room 就不会持久化该字段。</p>
+<h3 id="422-创建数据库">4.2.2 创建数据库</h3>
+<p>User 模型创建好以后，我们创建对应的 Room 数据库。</p>
+<pre><code class="language-java">@Database(entities = {User.class}, version = 1)
+public abstract class UserDatabase extends RoomDatabase {
+
+    public static final String DATABASE_NAME = &quot;user_db1&quot;;
+
+    private static UserDatabase databaseInstance;
+
+    public static synchronized UserDatabase getInstance(Context context) {
+        if (databaseInstance == null) {
+            databaseInstance = Room.databaseBuilder(context.getApplicationContext(),
+                    UserDatabase.class, DATABASE_NAME).build();
+        }
+        return databaseInstance;
+    }
+
+    public abstract UserDao userDao();
+}
+</code></pre>
+<ul>
+<li>@Database</li>
+</ul>
+<p>@Database 标签用于告诉系统这是 Room 数据库对象。<code>entities</code> 属性用于指定该数据库有哪些表，若需要建立多张表，则表名以逗号相隔开。<code>version</code> 属性用于指定数据库版本号，后面数据库的升级正是依据版本号进行判断的。</p>
+<ul>
+<li>RoomDatabase</li>
+</ul>
+<p>数据库类需要继承 <code>RoomDatabase</code>，并通过 <code>Room.databaseBuilder()</code> 结合单例设计模式完成创建。</p>
+<p>我们看到最后一行代码是：</p>
+<pre><code class="language-java">public abstract UserDao userDao();
+</code></pre>
+<p>这是声明操作数据库的 Dao（Data Access Objects） 文件，并且是以抽象的方式返回（这是一个固定的写法）。</p>
+<p>UserDatabase 的职责只是创建数据库，如果想要访问数据库中的表，需要创建对应的 Dao 文件，并在 Dao 文件中提供增、删、改、查的方法。下面，我们创建一个 UserDao：</p>
+<pre><code class="language-java">@Dao
+public interface UserDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertUser(User user);
+
+    @Delete
+    void deleteStudent(User user);
+
+    /**
+     * 查询方式返回的是 LiveData 包装过的 User，这样当 Room 中的数据
+     * 发生变化时，能够自动通知数据观察者
+     *
+     * @param login
+     * @return
+     */
+    @Query(&quot;SELECT * FROM user WHERE login = :login&quot;)
+    LiveData&lt;User&gt; getUserByName(String login);
+}
+</code></pre>
+<p>注意，我们需要加上 <code>@Dao</code> 标签标记 UserDao。</p>
+<p>增、删、改、查的方法分别使用 <code>@Insert</code>、<code>@Delete</code>、<code>@Update</code>、<code>@Query</code> 标签进行标记。</p>
+<h2 id="43-api-层">4.3 API 层</h2>
+<h3 id="431-定义-api-接口">4.3.1 定义 API 接口</h3>
+<pre><code class="language-java">public interface Api {
+    @GET(&quot;users/{login}&quot;)
+    Call&lt;User&gt; getUser(@Path(&quot;login&quot;) String login);
+}
+</code></pre>
+<h3 id="432-实例化-retrofit-对象">4.3.2 实例化 Retrofit 对象</h3>
+<pre><code class="language-java">public class RetrofitClient {
+    private static final String BASE_URL = &quot;https://api.github.com/&quot;;
+    private static RetrofitClient retrofitClient;
+    private Retrofit retrofit;
+
+    private RetrofitClient() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
+                .build();
+
+        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+    }
+
+    public static synchronized RetrofitClient getInstance() {
+        if (retrofitClient == null) {
+            retrofitClient = new RetrofitClient();
+        }
+        return retrofitClient;
+    }
+
+    public Api getApi() {
+        return retrofit.create(Api.class);
+    }
+}
+</code></pre>
+<p>由于我们访问的是 <code>https</code> 的网站，为了访问方便，我们忽略掉 https 的证书验证。</p>
+<pre><code class="language-java">OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
+                .build();
+</code></pre>
+<p>SSLSocketClient 的源码如下：</p>
+<pre><code class="language-java">public class SSLSocketClient {
+    //获取这个SSLSocketFactory
+    public static SSLSocketFactory getSSLSocketFactory() {
+        try {
+            SSLContext sslContext = SSLContext.getInstance(&quot;SSL&quot;);
+            sslContext.init(null, getTrustManager(), new SecureRandom());
+            return sslContext.getSocketFactory();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //获取TrustManager
+    private static TrustManager[] getTrustManager() {
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[]{};
+            }
+        }};
+        return trustAllCerts;
+    }
+
+    //获取HostnameVerifier
+    public static HostnameVerifier getHostnameVerifier() {
+        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+            @Override
+            public boolean verify(String s, SSLSession sslSession) {
+                return true;
+            }
+        };
+        return hostnameVerifier;
+    }
+}
+</code></pre>
+<p>参考文章：<a href="https://www.cnblogs.com/huolongluo/p/8360478.html">Retrofit+OKHttp忽略https证书验证</a></p>
+<h2 id="44-application-层">4.4 Application 层</h2>
+<p>我们选择在 Application 中对 Room 和 Retrofit 进行实例化，这样做的好处是统一管理和全局调用这两个对象，并且不用担心这两个对象的生命周期问题，数据库和 Retrofit 对象通常伴随着整个应用程序的声明周期。</p>
+<pre><code class="language-java">public class MyApplication extends Application {
+
+    private static MyApplication instance;
+    private static UserDatabase userDatabase;
+    private static Api api;
+
+    public MyApplication() {
+        super();
+        instance = this;
+    }
+
+    public static synchronized MyApplication getInstance() {
+        return instance;
+    }
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        userDatabase = UserDatabase.getInstance(this);
+        api = RetrofitClient.getInstance().getApi();
+    }
+
+    public static Api getApi() {
+        return api;
+    }
+
+    public static UserDatabase getUserDatabase() {
+        return userDatabase;
+    }
+}
+</code></pre>
+<h2 id="45-repository-层">4.5 Repository 层</h2>
+<p>在该层中请求网络数据，并将得到的数据写入 Room 数据库。注意，在真实的项目中，不一定非要引入 Room 数据库，这里只是为了演示 Room 的使用，所有将网络数据写入了 Room 数据库中。</p>
+<p>Repository 层只对 ViewModel 负责，它提供了两个方法 getUser() 和 refresh()。ViewModel 不需要关心数据是来自于网络还是本地数据库，当需要数据时，它只需要调用 getUser() 即可。</p>
+<p>每次调用 getUser() 方法时，都会调用 refresh() 方法更新一次数据，refresh() 也被下拉刷新组件所调用。</p>
+<p>当网络数据请求成功后，会直接将其写入数据库，由于使用了 LiveData，当数据有变化时，ViewModel 会自动得到通知，因此，你不用担心数据更新问题。</p>
+<pre><code class="language-java">public class UserRepository {
+    private String TAG = this.getClass().getName();
+    private UserDao userDao;
+    private Api api;
+
+    public UserRepository(UserDao userDao, Api api) {
+        this.userDao = userDao;
+        this.api = api;
+    }
+
+    public LiveData&lt;User&gt; getUser(final String name) {
+        refresh(name);
+        return userDao.getUserByName(name);
+    }
+
+    public void refresh(String userName) {
+        api.getUser(userName).enqueue(new Callback&lt;User&gt;() {
+            @Override
+            public void onResponse(Call&lt;User&gt; call, Response&lt;User&gt; response) {
+                if (response.body() != null) {
+                    insertUser(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call&lt;User&gt; call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void insertUser(final User user) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                userDao.insertUser(user);
+            }
+        });
+    }
+}
+</code></pre>
+<h2 id="46-viewmodel-层">4.6 ViewModel 层</h2>
+<p>在 ViewModel 的构造器中，实例化 Repository 对象，并将数据库对象和 Retrofit 对象以构造参数的形式传入 Repository 中。同样也是利用 LiveData 将 User 数据传递到上一层，即 View。</p>
+<pre><code class="language-java">public class UserViewModel extends AndroidViewModel {
+    private LiveData&lt;User&gt; user;
+    private UserRepository userRepository;
+
+    private String userName = &quot;yancechen&quot;;
+
+    public UserViewModel(@NonNull Application application) {
+        super(application);
+        UserDatabase userDatabase = MyApplication.getUserDatabase();
+        UserDao userDao = userDatabase.userDao();
+
+        userRepository = new UserRepository(userDao, MyApplication.getApi());
+        user = userRepository.getUser(userName);
+    }
+
+    public LiveData&lt;User&gt; getUser() {
+        return user;
+    }
+
+    public void refresh() {
+        userRepository.refresh(userName);
+    }
+}
+</code></pre>
+<h2 id="47-view-层">4.7 View 层</h2>
+<p>在 Activity 中，我们使用了 DataBinding 组件和下拉刷新组件。当 User 数据发生变化时，自动通过回调方法得到通知，在接收到通知后，将数据交给布局文件进行处理。</p>
+<p>我们首先来看看 Activity 的布局文件：</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;layout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;&gt;
+
+    &lt;data&gt;
+        &lt;variable
+            name=&quot;user&quot;
+            type=&quot;com.yance.model.User&quot; /&gt;
+    &lt;/data&gt;
+
+    &lt;androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id=&quot;@+id/swipeRefresh&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+        &lt;androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:background=&quot;@android:color/darker_gray&quot;
+            tools:context=&quot;.MainActivity&quot;&gt;
+
+            &lt;ImageView
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;230dp&quot;
+                android:scaleType=&quot;fitXY&quot;
+                android:src=&quot;@drawable/top_bg&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toTopOf=&quot;parent&quot;/&gt;
+
+            &lt;View
+                android:id=&quot;@+id/white_bg_view&quot;
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;match_parent&quot;
+                android:layout_marginLeft=&quot;20dp&quot;
+                android:layout_marginTop=&quot;160dp&quot;
+                android:layout_marginRight=&quot;20dp&quot;
+                android:background=&quot;@android:color/white&quot;
+                app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toTopOf=&quot;parent&quot;/&gt;
+
+            &lt;ImageView
+                android:id=&quot;@+id/avatar_civ&quot;
+                android:layout_width=&quot;96dp&quot;
+                android:layout_height=&quot;96dp&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toTopOf=&quot;parent&quot;
+                android:layout_marginTop=&quot;118dp&quot;
+                app:imageUrl=&quot;@{user.avatar}&quot;
+                app:placeHolder=&quot;@{@drawable/avatar_default}&quot;
+                app:error=&quot;@{@drawable/avatar_default}&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/name_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;20dp&quot;
+                android:text=&quot;@{user.name}&quot;
+                android:textColor=&quot;#333333&quot;
+                android:textSize=&quot;22sp&quot;
+                android:textStyle=&quot;bold&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/avatar_civ&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/bio_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;15dp&quot;
+                android:text=&quot;@{user.bio}&quot;
+                android:textColor=&quot;#999999&quot;
+                android:textSize=&quot;16sp&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/name_tv&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/location_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;15dp&quot;
+                android:text=&quot;@{@string/location(user.location)}&quot;
+                android:textColor=&quot;#999999&quot;
+                android:textSize=&quot;16sp&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/bio_tv&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/followers_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;15dp&quot;
+                android:text=&quot;@{@string/followers(Integer.toString(user.followers))}&quot;
+                android:textColor=&quot;#999999&quot;
+                android:textSize=&quot;16sp&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toLeftOf=&quot;@+id/following_tv&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/location_tv&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/following_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;15dp&quot;
+                android:text=&quot;@{@string/following(Integer.toString(user.following))}&quot;
+                android:textColor=&quot;#999999&quot;
+                android:textSize=&quot;16sp&quot;
+                app:layout_constraintLeft_toRightOf=&quot;@+id/followers_tv&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/location_tv&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/html_url_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;15dp&quot;
+                android:text=&quot;@{user.html_url}&quot;
+                android:textColor=&quot;#999999&quot;
+                android:textSize=&quot;16sp&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/following_tv&quot;/&gt;
+
+            &lt;TextView
+                android:id=&quot;@+id/blog_tv&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;15dp&quot;
+                android:text=&quot;@{user.blog}&quot;
+                android:textColor=&quot;#999999&quot;
+                android:textSize=&quot;16sp&quot;
+                app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+                app:layout_constraintRight_toRightOf=&quot;parent&quot;
+                app:layout_constraintTop_toBottomOf=&quot;@+id/html_url_tv&quot;/&gt;
+
+        &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+    &lt;/androidx.swiperefreshlayout.widget.SwipeRefreshLayout&gt;
+&lt;/layout&gt;
+</code></pre>
+<p>使用 DataBinding 的一个方便的地方是，在布局文件里，View 可以直接绑定它需要的数据。</p>
+<figure data-type="image" tabindex="3"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a8b3971885d3453da88e70ce0fe3f525~tplv-k3u1fbpfcp-watermark.image" alt="" loading="lazy"></figure>
+<p>使用一个 @ 符号再加上 {} ，中间写上需要的对应字段即可完成 View 与数据的绑定，如 <code>@{user.blog}</code>。</p>
+<p>对于 TextView 来说绑定数据很容易，如果是 ImageView 想加载一张网络图片呢？</p>
+<p>方法是使用 <strong>BindingAdapter</strong>。</p>
+<p>BindingAdapter 用来设置布局中 View 的自定义属性，当使用该属性时，可以自定义其行为。</p>
+<pre><code class="language-java">public class ImageViewAttrAdapter {
+    @BindingAdapter(&quot;android:src&quot;)
+    public static void setSrc(ImageView view, Bitmap bitmap) {
+        view.setImageBitmap(bitmap);
+    }
+
+    @BindingAdapter(&quot;android:src&quot;)
+    public static void setSrc(ImageView view, int resId) {
+        view.setImageResource(resId);
+    }
+
+    /**
+     * 这里loadImage()绑定了多个属性，&quot;app:imageUrl&quot;、“app:placeHolder”、&quot;app:error&quot;属性。
+     * 分别表示要加载的图片路径，占位图片，和加载出错时加载的图片。
+     *
+     * @param imageView
+     * @param url
+     * @param holderDrawable
+     * @param errorDrawable
+     */
+    @BindingAdapter({&quot;app:imageUrl&quot;, &quot;app:placeHolder&quot;, &quot;app:error&quot;})
+    public static void loadImage(ImageView imageView, String url, Drawable holderDrawable, Drawable errorDrawable) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .transform(new CircleCrop())
+                .placeholder(holderDrawable)
+                .error(errorDrawable)
+                .into(imageView);
+    }
+}
+</code></pre>
+<p>当一个方法加上 @BindingAdapter 注解后，就定义了一个 BindingAdapter，注意方法的第一个参数是需要绑定到的 View，第二个参数是绑定的属性值。</p>
+<p>当定义完成后，此时我们就可以在布局的 View 中使用该属性，举例如下：</p>
+<pre><code class="language-xml">&lt;ImageView
+    android:id=&quot;@+id/avatar_civ&quot;
+    android:layout_width=&quot;96dp&quot;
+    android:layout_height=&quot;96dp&quot;
+    app:imageUrl=&quot;@{user.avatar}&quot;
+    app:placeHolder=&quot;@{@drawable/avatar_default}&quot;
+    app:error=&quot;@{@drawable/avatar_default}&quot;/&gt;
+</code></pre>
+<p>下面来看看 Activity 的代码：</p>
+<pre><code class="language-java">public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        final ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        final UserViewModel userViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(MyApplication.getInstance())).get(UserViewModel.class);
+
+        userViewModel.getUser().observe(this, new Observer&lt;User&gt;() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    //更新布局文件中的 User 对象，UI 也会自动更新
+                    activityMainBinding.setUser(user);
+                }
+            }
+        });
+
+        final SwipeRefreshLayout swipeRefresh = activityMainBinding.swipeRefresh;
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                userViewModel.refresh();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Jetpack 之 LifeCycle 组件原理解析]]></title>
         <id>https://yancechen.github.io/post/jetpack-zhi-lifecycle-zu-jian-yuan-li-jie-xi/</id>
